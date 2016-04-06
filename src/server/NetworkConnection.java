@@ -10,6 +10,8 @@ import java.net.Socket;
  */
 public class NetworkConnection extends Thread {
 	
+	private boolean running = false;
+	
 	private final int PORT = 7500;
 	
 	private ServerSocket serverSocket;
@@ -22,11 +24,13 @@ public class NetworkConnection extends Thread {
 
 	public void run() {
 		try {
+			running = true;
 			serverSocket = new ServerSocket(PORT);
 		} catch (IOException e) {
+			running = false;
 			e.printStackTrace();
 		}
-		while(serverSocket != null) {
+		while(serverSocket != null && running) {
 			try {
 				socket = serverSocket.accept();
 				new Thread(new ClientHandler()).start();
@@ -34,5 +38,14 @@ public class NetworkConnection extends Thread {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void stopServer() {
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		running = false;
 	}
 }
