@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.json.simple.JSONObject;
+
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
@@ -55,7 +57,6 @@ public class DatabaseManager {
 			ResultSet result = select.executeQuery(GET_PASSWORD_QUERY + "'"+userName+"'");
 			passWord = result.getString(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return passWord;
@@ -106,5 +107,9 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void buildSimpleJson() {
+		JSONObject jsonObject = new JSONObject();
 	}
 }
