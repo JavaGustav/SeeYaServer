@@ -108,7 +108,7 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void buildSimpleJson() {
 		JSONObject jsonObject = new JSONObject();
 	}
