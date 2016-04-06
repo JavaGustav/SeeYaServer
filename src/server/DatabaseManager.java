@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 /**
  * SeeYa
  * @author Gustav Frigren
@@ -63,13 +65,20 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public boolean registerNewUser(String userName, String password, String email) {
+	public boolean registerNewUser(String userName, String passWord, String email) {
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO users "+
-														"VALUES (?, ?, ?");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO "+
+										" users VALUES (?, ?, ?");
+			statement.setString(1, userName);
+			statement.setString(2, passWord);
+			statement.setString(3, email);
+			statement.executeUpdate();
+			return true;
+		} catch (MySQLIntegrityConstraintViolationException e2) {
+			//TODO if the username already exists. Check here?
+			e2.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
