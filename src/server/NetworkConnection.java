@@ -10,6 +10,8 @@ import java.net.Socket;
  */
 public class NetworkConnection extends Thread {
 	
+	private final int PORT = 7500;
+	
 	private ServerSocket serverSocket;
 	private Controller controller;
 	private Socket socket;
@@ -17,10 +19,10 @@ public class NetworkConnection extends Thread {
 	public NetworkConnection(Controller controller) {
 		this.controller = controller;
 	}
-	
+
 	public void run() {
 		try {
-			serverSocket = new ServerSocket(7500);
+			serverSocket = new ServerSocket(PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,5 +35,4 @@ public class NetworkConnection extends Thread {
 			}
 		}
 	}
-
 }

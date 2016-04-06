@@ -17,21 +17,21 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
  *
  */
 public class DatabaseManager {
-	
+
 	private final String GET_PASSWORD_QUERY = "SELECT PASSWORD FROM users WHERE" +
 												"username = ";
-	
+
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 	private final String USERNAME = "AD4063";
 	private final String PASSWORD = "seeyaserver";
-	
+
 	Connection connection = null;
-	
+
 	public DatabaseManager() {
 		initConnection();
 	}
-	
+
 	private void initConnection() {
 		try {
 			Class.forName(DRIVER).newInstance();
