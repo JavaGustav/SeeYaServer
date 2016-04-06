@@ -2,7 +2,10 @@ package server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * SeeYa
@@ -10,6 +13,9 @@ import java.sql.SQLException;
  *
  */
 public class DatabaseManager {
+	
+	private final String GET_PASSWORD_QUERY = "SELECT PASSWORD FROM users WHERE" +
+												"username = ";
 	
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -39,8 +45,18 @@ public class DatabaseManager {
 		return null;
 	}
 	
-	public void getPassWord(String userName) {
-		
+	public String getPassWord(String userName) {
+		Statement select;
+		String passWord = null;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery(GET_PASSWORD_QUERY + "'"+userName+"'");
+			passWord = result.getString(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return passWord;
 	}
 
 	public boolean checkLogin(String userName, String password) {
@@ -48,6 +64,13 @@ public class DatabaseManager {
 	}
 
 	public boolean registerNewUser(String userName, String password, String email) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO users "+
+														"VALUES (?, ?, ?");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
