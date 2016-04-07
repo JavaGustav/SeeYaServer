@@ -25,8 +25,8 @@ public class DatabaseManager {
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
-	private final String USERNAME = "AD4063";
-	private final String PASSWORD = "seeyaserver";
+	private final String USERNAME = "";
+	private final String PASSWORD = "";
 
 	Connection connection = null;
 
