@@ -14,7 +14,7 @@ public class Controller {
 				serverGUI = new ServerGUI(controller);
 			}
 		});
-		
+
 		networkConnection = new NetworkConnection(this);
 
 	}

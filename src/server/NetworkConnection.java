@@ -39,7 +39,7 @@ public class NetworkConnection extends Thread {
 			}
 		}
 	}
-	
+
 	public void stopServer() {
 		try {
 			serverSocket.close();
