@@ -108,7 +108,7 @@ public class ServerGUI extends JPanel implements ActionListener{
     }
 
     private JTextField tfPort() {
-        JTextField tfPort = new JTextField("40023");
+        JTextField tfPort = new JTextField("7500");
         tfPort.setPreferredSize(new Dimension(200, 20));
         return tfPort;
     }

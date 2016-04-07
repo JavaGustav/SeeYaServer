@@ -12,30 +12,36 @@ public class NetworkConnection extends Thread {
 	
 	private boolean running = false;
 	
-	private final int PORT = 7500;
-	
+	//private final int PORT = 7500;
+	private int port;
 	private ServerSocket serverSocket;
 	private Controller controller;
 	private Socket socket;
 	
-	public NetworkConnection(Controller controller) {
+	public NetworkConnection(Controller controller, int port) {
 		this.controller = controller;
+		this.port = port;
+		System.out.println("NetworkConnection");
 	}
 
 	public void run() {
+		System.out.println("In NetworkConnection, run");
 		try {
 			running = true;
-			serverSocket = new ServerSocket(PORT);
+			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			running = false;
 			e.printStackTrace();
 		}
 		while(serverSocket != null && running) {
+			System.out.println("In NetworkConnection, run, while");
 			try {
 				socket = serverSocket.accept();
-				new Thread(new ClientHandler()).start();
+				new Thread(new ClientHandler(controller, socket)).start();
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				//Logga
+				System.out.println("ServerSocket closed");
 			}
 		}
 	}
@@ -44,7 +50,8 @@ public class NetworkConnection extends Thread {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("stopServer in IOException");
+			//e.printStackTrace();
 		}
 		running = false;
 	}
