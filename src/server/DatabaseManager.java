@@ -24,6 +24,7 @@ public class DatabaseManager {
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
 			" username = ";
 	private final String GET_ACTIVITIES_QUERY = "SELECT * FROM activities";
+	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine FROM activities WHERE subCategory = ";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -50,7 +51,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivities(String location, String category) {
+	public String getActivities(String location, String category, int id) {
 		JSONObject mainObject = startJson(Constants.ACTIVITIES);
 		JSONArray jArray = new JSONArray();
 		Statement select;
@@ -68,16 +69,39 @@ public class DatabaseManager {
 				temp.put("time", result.getString(7));
 				temp.put("message", result.getString(8));
 				temp.put("owner", result.getString(9));
+				temp.put("headline", result.getString(10));
 				jArray.add(temp);
-				mainObject.put("activities", jArray);
 			}
+			mainObject.put("activities", jArray);
 			System.out.println("RESULTS: \n" + mainObject.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return mainObject.toString();
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public String getActivityHeadLines(int categoryId) {
+		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
+		JSONArray jArray = new JSONArray();
+		Statement select;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery(GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
+			while(result.next()) {
+				JSONObject temp = new JSONObject();
+				temp.put("id", result.getInt(1));
+				temp.put("headline", result.getString(2));
+				jArray.add(temp);
+			}
+			mainObject.put("headlines", jArray);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mainObject.toString();
+	}
+
 	private void buildArray() {
 		
 	}
@@ -110,14 +134,8 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 		if(result.next()) {
-			System.out.println("TRUE");
 			return true;
 		}
-		return false;
-	}
-
-	public boolean checkLogin(String userName, String password) {
-
 		return false;
 	}
 
@@ -126,7 +144,6 @@ public class DatabaseManager {
 			openConnection();
 		}
 		try {
-			System.out.println("TEST");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO"+
 					" users (username, password, email) VALUES (?, ?, ?)");
 			statement.setString(1, userName);
@@ -138,7 +155,6 @@ public class DatabaseManager {
 			//TODO if the username already exists. Check here?
 			e2.printStackTrace();
 		} catch (SQLException e) {
-
 		}
 		return false;
 	}
@@ -167,6 +183,10 @@ public class DatabaseManager {
 		}
 		return false;
 	}
+	
+	public String getCategories() {
+		return null;
+	}
 
 	private void openConnection() {
 		try {
@@ -190,10 +210,10 @@ public class DatabaseManager {
 		obj.put(Constants.TYPE, type);
 		return obj;
 	}
-	
+
 	public static void main(String args[]) {
 		DatabaseManager db = new DatabaseManager();
-		//db.getActivities("sdg", "kjsdf");
+		db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		db.signUpForActivity("Liza", 3);
 	}
