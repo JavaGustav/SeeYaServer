@@ -44,7 +44,6 @@ public class CustomButton extends JButton implements MouseListener {
         return pane;
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
 

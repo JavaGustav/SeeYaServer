@@ -96,7 +96,6 @@ public class DatabaseManager {
 			}
 			mainObject.put("headlines", jArray);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return mainObject.toString();
