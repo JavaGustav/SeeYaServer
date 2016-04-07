@@ -16,14 +16,17 @@ public class Controller {
 		});
 		
 		networkConnection = new NetworkConnection(this);
+
 	}
 	
 	public void startServer(int port){
-		
+		if(networkConnection == null){
+			networkConnection.start();
+		}
 	}
 	
 	public void stopServer(){
-		
+		networkConnection.stopServer();
 	}
 	
 	public static void main(String[] args){
