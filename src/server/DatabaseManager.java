@@ -50,7 +50,11 @@ public class DatabaseManager {
 	public String getActivities(String location, String category) {
 		return null;
 	}
-	
+
+	public String getActivity() {
+		return null;
+	}
+
 	public String getPassWord(String userName) {
 		Statement select;
 		String passWord = null;
@@ -63,7 +67,7 @@ public class DatabaseManager {
 		}
 		return passWord;
 	}
-	
+
 	public boolean checkIfUserExists(String userName) throws SQLException {
 		Statement select;
 		ResultSet result = null;
@@ -86,6 +90,9 @@ public class DatabaseManager {
 	}
 
 	public boolean registerNewUser(String userName, String passWord, String email) {
+		if(connection == null) {   //TODO or connection.isClosed()
+			openConnection();
+		}
 		try {
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO "+
 										" users VALUES (?, ?, ?");
