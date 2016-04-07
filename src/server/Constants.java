@@ -10,5 +10,6 @@ public final class Constants {
 	public static final int TYPE = 1;
 	public static final int NEWUSER = 2;
 	public static final int LOGIN = 3;
+	public static final int ACTIVITIES = 4;
 
 }

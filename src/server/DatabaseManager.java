@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -19,14 +20,15 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 public class DatabaseManager {
 
 	private final String GET_PASSWORD_QUERY = "SELECT PASSWORD FROM users WHERE" +
-												"username = ";
+			"username = ";
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
-												" username = ";
+			" username = ";
+	private final String GET_ACTIVITIES_QUERY = "SELECT * FROM activities";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
-	private final String USERNAME = "";
-	private final String PASSWORD = "";
+	private final String USERNAME = "AD4063";
+	private final String PASSWORD = "sys100";
 
 	Connection connection = null;
 
@@ -47,8 +49,37 @@ public class DatabaseManager {
 		openConnection();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getActivities(String location, String category) {
-		return null;
+		JSONObject mainObject = startJson(Constants.ACTIVITIES);
+		JSONArray jArray = new JSONArray();
+		Statement select;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery(GET_ACTIVITIES_QUERY);
+			while(result.next()) {
+				JSONObject temp = new JSONObject();
+				temp.put("id", result.getString(1));
+				temp.put("category", result.getString(2));
+				temp.put("subcategory", result.getString(3));
+				temp.put("max", result.getString(4));
+				temp.put("min", result.getString(5));
+				temp.put("date", result.getString(6));
+				temp.put("time", result.getString(7));
+				temp.put("message", result.getString(8));
+				temp.put("owner", result.getString(9));
+				jArray.add(temp);
+				mainObject.put("activities", jArray);
+			}
+			System.out.println("RESULTS: \n" + mainObject.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return mainObject.toString();
+	}
+	
+	private void buildArray() {
+		
 	}
 
 	public String getActivity() {
@@ -79,13 +110,14 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 		if(result.next()) {
+			System.out.println("TRUE");
 			return true;
 		}
 		return false;
 	}
 
 	public boolean checkLogin(String userName, String password) {
-		
+
 		return false;
 	}
 
@@ -94,8 +126,9 @@ public class DatabaseManager {
 			openConnection();
 		}
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO "+
-										" users VALUES (?, ?, ?");
+			System.out.println("TEST");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO"+
+					" users (username, password, email) VALUES (?, ?, ?)");
 			statement.setString(1, userName);
 			statement.setString(2, passWord);
 			statement.setString(3, email);
@@ -105,7 +138,7 @@ public class DatabaseManager {
 			//TODO if the username already exists. Check here?
 			e2.printStackTrace();
 		} catch (SQLException e) {
-			
+
 		}
 		return false;
 	}
@@ -117,6 +150,22 @@ public class DatabaseManager {
 
 	public String getUsers() {
 		return null;
+	}
+
+	public boolean signUpForActivity(String userName, int activityID) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("INSERT INTO "+
+					" signup VALUES (?, ?)");
+			statement.setInt(1, activityID);
+			statement.setString(2, userName);
+			statement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	private void openConnection() {
@@ -134,8 +183,18 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
-
-	private void buildSimpleJson() {
-		JSONObject jsonObject = new JSONObject();
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject startJson(int type) {
+		JSONObject obj = new JSONObject();
+		obj.put(Constants.TYPE, type);
+		return obj;
+	}
+	
+	public static void main(String args[]) {
+		DatabaseManager db = new DatabaseManager();
+		//db.getActivities("sdg", "kjsdf");
+		//db.registerNewUser("GF", "Hemligt", "email.com");
+		db.signUpForActivity("Liza", 3);
 	}
 }
