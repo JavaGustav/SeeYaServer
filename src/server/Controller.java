@@ -163,20 +163,24 @@ public class Controller {
 	private void newActivity(ClientHandler clientHandler, JSONObject jsonObject){
 		String owner = (String) jsonObject.get(Constants.NAME);
 		String location = (String) jsonObject.get(Constants.PLACE);
-		String category = (String) jsonObject.get(Constants.CATEGORY); 
-		String dateTime = (String) jsonObject.get(Constants.DATETIME);
-		String visibility = (String) jsonObject.get(Constants.VISBILITY);
+		int subcategory = (int) jsonObject.get(Constants.SUBCATEGORY); 
+		int maxnbr = (int) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
 		int nbrOfParticipants = (int) jsonObject.get(Constants.NBR_OF_PARTICIPANTS);
+		int minnbr = (int) jsonObject.get(Constants.TIME);
+		String date = (String) jsonObject.get(Constants.DATE); 
+		String time = (String) jsonObject.get(Constants.TIME); 	
+		String message = (String) jsonObject.get(Constants.MESSAGE);
+		String headline = (String) jsonObject.get(Constants.HEADLINE); 
 		
-		if(databaseManager.addNewActivity(owner, location, category, nbrOfParticipants, dateTime, visibility)){
+		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minnbr, date, time, message, headline)){
 			//Det gick att skapa den nya aktiviteten
-			String message = "Activity: " + "created succesfully";
+			String sendMessage = "Activity: " + "created succesfully";
 			String confirmation_type = "OK";
 			
 			confirmMessage(clientHandler, message, confirmation_type);
 			
 		} else { //Det gick inte att skapa den nya aktiviteten
-			String message = "Activity not created in database";
+			String sendMessage = "Activity not created in database";
 			String error_type = "Rejected";
 			
 			errorMessage(clientHandler, message, error_type);
