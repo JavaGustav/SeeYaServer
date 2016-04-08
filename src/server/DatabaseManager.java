@@ -29,7 +29,8 @@ public class DatabaseManager {
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String = "INSERT INTO"
+	private final String SET_ACTIVITY_PUBLIC_QUERY = "UPDATE activities "
+			+ "SET public = 1 WHERE id = ";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
@@ -191,7 +192,12 @@ public class DatabaseManager {
 	}
 	
 	public boolean publishActivity(int activityID) {
-		PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement(SET_ACTIVITY_PUBLIC_QUERY + activityID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
