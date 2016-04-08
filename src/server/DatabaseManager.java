@@ -107,11 +107,11 @@ public class DatabaseManager {
 		}
 		return mainObject.toString();
 	}
-//TODO
+	//TODO
 	private void buildArray() {
 		
 	}
-
+	//TODO
 	public String getActivity() {
 		return null;
 	}
@@ -190,7 +190,7 @@ public class DatabaseManager {
 		
 		return false;
 	}
-	
+
 	public boolean publishActivity(int activityID) {
 		PreparedStatement statement;
 		try {
@@ -216,7 +216,6 @@ public class DatabaseManager {
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -241,21 +240,12 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public JSONObject startJson(int type) {
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.TYPE, type);
 		return obj;
-	}
-	
-	private String encryptPW(String string) {
-		
-		return null;
-	}
-	
-	private String decryptPW(String string) {
-		return null;
 	}
 
 	public static void main(String args[]) {
