@@ -3,6 +3,8 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import org.json.simple.JSONObject;
 /**
  * SeeYa
  * @author Gustav Frigren
@@ -37,6 +39,7 @@ public class NetworkConnection extends Thread {
 			System.out.println("In NetworkConnection, run, while");
 			try {
 				socket = serverSocket.accept();
+				System.out.println("NetworkConnection, run, new client connected");
 				new Thread(new ClientHandler(controller, socket)).start();
 			} catch (IOException e) {
 				//e.printStackTrace();
