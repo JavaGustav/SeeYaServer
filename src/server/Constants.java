@@ -23,11 +23,13 @@ public final class Constants {
 	public static final int NEWACTIVITY = 14;
 	public static final int NAME = 15;
 	public static final int PLACE = 16;
-	public static final int DATETIME = 17;
-	public static final int VISBILITY = 18;
-	public static final int CATEGORY = 19;
+	public static final int TIME = 17;
+	public static final int MAX_NBROF_PARTICIPANTS = 18;
+	public static final int SUBCATEGORY = 19;
 	public static final int NBR_OF_PARTICIPANTS = 20;
 	public static final int PUBLISH_ACTIVITY = 21;
 	public static final int ACTIVITY_ID = 22;
+	public static final int DATE = 23;
+	public static final int HEADLINE = 24;
 
 }
