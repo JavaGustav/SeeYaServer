@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import org.json.simple.*;
 
 /**
  * Hanterar en anslten klient. Tar emot och skickar meddelanden.
@@ -36,7 +37,8 @@ public class ClientHandler implements Runnable {
 			dos = new DataOutputStream(socket.getOutputStream());
 			while(true){
 				jsonString = dis.readUTF();
-				controller.processCommand(jsonString);
+				System.out.println("ClientHandler, run, recieved new message from client");
+				controller.processCommand(this,jsonString);
 			}
 			
 		} catch(IOException e){
