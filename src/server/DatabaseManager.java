@@ -107,7 +107,7 @@ public class DatabaseManager {
 		}
 		return mainObject.toString();
 	}
-
+//TODO
 	private void buildArray() {
 		
 	}
@@ -195,6 +195,7 @@ public class DatabaseManager {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement(SET_ACTIVITY_PUBLIC_QUERY + activityID);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
