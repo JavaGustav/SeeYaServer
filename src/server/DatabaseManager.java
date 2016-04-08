@@ -24,10 +24,17 @@ public class DatabaseManager {
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
 			" username = ";
 	private final String GET_ACTIVITIES_QUERY = "SELECT * FROM activities";
-	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine FROM activities WHERE subCategory = ";
+	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine FROM "
+			+ "activities WHERE subCategory = ";
+	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
+			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
+			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	private final String SET_ACTIVITY_PUBLIC_QUERY = "UPDATE activities "
+			+ "SET public = 1 WHERE id = ";
+	private final String DRIVER = "com.mysql.jdbc.Driver";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
-	private final String DRIVER = "com.mysql.jdbc.Driver";
+
 	private final String USERNAME = "AD4063";
 	private final String PASSWORD = "sys100";
 
@@ -158,8 +165,39 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public boolean addNewActivity(String owner, String location, String category,
-			int nbrOfParticipants, String dateTime, String visibility) {
+	public boolean addNewActivity(String owner, String location, int subCategory,
+			int maxNbr, int minNbr, String date, 
+			String time, String message, String headLine) {
+		
+		if(connection == null) {
+			openConnection();
+		}
+		try {
+			PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);
+			statement.setInt(1, subCategory);
+			statement.setInt(2, maxNbr);
+			statement.setInt(3, minNbr);
+			statement.setString(4, date);
+			statement.setString(5, time);
+			statement.setString(6, message);
+			statement.setString(7, owner);
+			statement.setString(8, headLine);
+			statement.executeQuery();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean publishActivity(int activityID) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement(SET_ACTIVITY_PUBLIC_QUERY + activityID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -209,11 +247,20 @@ public class DatabaseManager {
 		obj.put(Constants.TYPE, type);
 		return obj;
 	}
+	
+	private String encryptPW(String string) {
+		
+		return null;
+	}
+	
+	private String decryptPW(String string) {
+		return null;
+	}
 
 	public static void main(String args[]) {
 		DatabaseManager db = new DatabaseManager();
 		db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
-		db.signUpForActivity("Liza", 3);
+		//db.signUpForActivity("Liza", 3);
 	}
 }
