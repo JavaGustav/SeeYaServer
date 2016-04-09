@@ -31,5 +31,8 @@ public final class Constants {
 	public static final int ACTIVITY_ID = 22;
 	public static final int DATE = 23;
 	public static final int HEADLINE = 24;
+	
+	public static final int LOG_INFO = 100;
+	public static final int LOG_ERROR = 101;
 
 }

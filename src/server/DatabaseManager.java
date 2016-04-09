@@ -31,6 +31,8 @@ public class DatabaseManager {
 			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String SET_ACTIVITY_PUBLIC_QUERY = "UPDATE activities "
 			+ "SET public = 1 WHERE id = ";
+	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
+			+ "VALUES(?, ?)";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
@@ -224,6 +226,20 @@ public class DatabaseManager {
 	public String getCategories() {
 		return null;
 	}
+	
+	public boolean writeLog(int logType, String message) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement(WRITE_LOG_QUERY);
+			statement.setInt(1,  logType);
+			statement.setString(2, message);
+			statement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	private void openConnection() {
 		try {
@@ -250,8 +266,9 @@ public class DatabaseManager {
 
 	public static void main(String args[]) {
 		DatabaseManager db = new DatabaseManager();
-		db.getActivities("sdg", "kjsdf", 5);
+		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 3);
+		db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 	}
 }
