@@ -35,7 +35,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Startar NetworkConnection så att klienter kan ansluta.
+	 * Startar NetworkConnection sï¿½ att klienter kan ansluta.
 	 * @param port
 	 */
 	public void startServer(int port){
@@ -47,14 +47,14 @@ public class Controller {
 	}
 	
 	/**
-	 * Stoppar NetorkConnection så att klienter inte längre kan ansluta.
+	 * Stoppar NetorkConnection sï¿½ att klienter inte lï¿½ngre kan ansluta.
 	 */
 	public void stopServer(){
 		networkConnection.stopServer();
 	}
 	
 	/**
-	 * Processar kommandosträngen från ClientHandler och anropar rätt metod i DatabaseManagern.
+	 * Processar kommandostrï¿½ngen frï¿½n ClientHandler och anropar rï¿½tt metod i DatabaseManagern.
 	 */
 	public void processCommand(ClientHandler clientHandler, String jsonString){
 		JSONObject jsonObject = null;
@@ -85,9 +85,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Hämtar värden ur new user-objektet och anropar DatabaseManager för att försöka lägga in användaren.
+	 * Hï¿½mtar vï¿½rden ur new user-objektet och anropar DatabaseManager fï¿½r att fï¿½rsï¿½ka lï¿½gga in anvï¿½ndaren.
 	 * Vid lyckat resultat skickar metoden ett confirm-meddelandet till klienten via ClientHandler.
-	 * Vid misslyckat resultat, användaren finns redan i db, skickar metoden ett error-meddelande till 
+	 * Vid misslyckat resultat, anvï¿½ndaren finns redan i db, skickar metoden ett error-meddelande till 
 	 * klienten via ClientHandler.
 	 * @param jsonObject
 	 */
@@ -104,7 +104,7 @@ public class Controller {
 			
 			confirmMessage(clientHandler, message, confirmation_type);
 			
-		} else { //Då har det inte gått att lagra användaren
+		} else { //Dï¿½ har det inte gï¿½tt att lagra anvï¿½ndaren
 			
 			String message = "User: " + userName + " is NOT created";
 			String error_type = "Rejected";
@@ -114,9 +114,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Hämtar värden ur new logIn-objektet och anropar DatabaseManager för att försöka logga in användaren.
+	 * Hï¿½mtar vï¿½rden ur new logIn-objektet och anropar DatabaseManager fï¿½r att fï¿½rsï¿½ka logga in anvï¿½ndaren.
 	 * Vid lyckat resultat skickar metoden ett confirm-meddelandet till klienten via ClientHandler.
-	 * Vid misslyckat resultat, användaren finns inte i db, skickar metoden ett error-meddelande till 
+	 * Vid misslyckat resultat, anvï¿½ndaren finns inte i db, skickar metoden ett error-meddelande till 
 	 * klienten via ClientHandler.
 	 * @param clientHandler
 	 * @param jsonObject
@@ -142,7 +142,7 @@ public class Controller {
 					
 					errorMessage(clientHandler, message, error_type);
 				}
-			} else { //Användaren finns inte i databasen
+			} else { //Anvï¿½ndaren finns inte i databasen
 				
 				String message = "User not in database";
 				String error_type = "Rejected";
@@ -157,7 +157,7 @@ public class Controller {
 	
 	/**
 	 * Skapar ny aktivitet.
-	 * @param clientHandler. Klienten som resultatet ska sändas till.
+	 * @param clientHandler. Klienten som resultatet ska sï¿½ndas till.
 	 * @param jsonObject. Objektet med intata/kommando.
 	 */
 	private void newActivity(ClientHandler clientHandler, JSONObject jsonObject){
@@ -165,7 +165,7 @@ public class Controller {
 		String location = (String) jsonObject.get(Constants.PLACE);
 		int subcategory = (int) jsonObject.get(Constants.SUBCATEGORY); 
 		int maxnbr = (int) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
-		int nbrOfParticipants = (int) jsonObject.get(Constants.NBR_OF_PARTICIPANTS);
+		//int nbrOfParticipants = (int) jsonObject.get(Constants.NBR_OF_PARTICIPANTS);
 		int minnbr = (int) jsonObject.get(Constants.TIME);
 		String date = (String) jsonObject.get(Constants.DATE); 
 		String time = (String) jsonObject.get(Constants.TIME); 	
@@ -188,7 +188,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Hämtar värden ur publish-objektet och anropar DatabaseManager för att försöka lägga till publiceringen.
+	 * Hï¿½mtar vï¿½rden ur publish-objektet och anropar DatabaseManager fï¿½r att fï¿½rsï¿½ka lï¿½gga till publiceringen.
 	 * Vid lyckat resultat skickar metoden ett confirm-meddelandet till klienten via ClientHandler.
 	 * Vid misslyckat resultat, det gick inte att publicera aktiviteten, skickar metoden ett error-meddelande till 
 	 * klienten via ClientHandler.
@@ -205,7 +205,7 @@ public class Controller {
 //			
 //			confirmMessage(clientHandler, message, confirmation_type);
 //			
-//		} else { //Då har det inte gått att lagra användaren
+//		} else { //Dï¿½ har det inte gï¿½tt att lagra anvï¿½ndaren
 //			
 //			String message = "Activity Id: " + activityID + " is NOT published";
 //			String error_type = "Rejected";

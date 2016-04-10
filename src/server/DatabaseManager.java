@@ -99,8 +99,8 @@ public class DatabaseManager {
 			ResultSet result = select.executeQuery(GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
 			while(result.next()) {
 				JSONObject temp = new JSONObject();
-				temp.put("id", result.getInt(1));
-				temp.put("headline", result.getString(2));
+				temp.put(Constants.ACTIVITY_ID, result.getInt(1));
+				temp.put(Constants.HEADLINE, result.getString(2));
 				jArray.add(temp);
 			}
 			mainObject.put("headlines", jArray);
