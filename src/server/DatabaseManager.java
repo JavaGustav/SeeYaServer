@@ -69,16 +69,16 @@ public class DatabaseManager {
 			ResultSet result = select.executeQuery(GET_ACTIVITIES_QUERY);
 			while(result.next()) {
 				JSONObject temp = new JSONObject();
-				temp.put("id", result.getString(1));
+				temp.put(Constants.USERNAME, result.getString(1));
 				temp.put("category", result.getString(2));
-				temp.put("subcategory", result.getString(3));
-				temp.put("max", result.getString(4));
-				temp.put("min", result.getString(5));
-				temp.put("date", result.getString(6));
-				temp.put("time", result.getString(7));
-				temp.put("message", result.getString(8));
-				temp.put("owner", result.getString(9));
-				temp.put("headline", result.getString(10));
+				temp.put(Constants.SUBCATEGORY, result.getString(3));
+				temp.put(Constants.MAX_NBROF_PARTICIPANTS, result.getString(4));
+				temp.put(Constants.MIN_NBR_OF_PARTICIPANTS, result.getString(5));
+				temp.put(Constants.DATE, result.getString(6));
+				temp.put(Constants.TIME, result.getString(7));
+				temp.put(Constants.MESSAGE, result.getString(8));
+				temp.put(Constants.ACTIVITY_OWNER, result.getString(9));
+				temp.put(Constants.HEADLINE, result.getString(10));
 				jArray.add(temp);
 			}
 			mainObject.put("activities", jArray);
@@ -235,6 +235,17 @@ public class DatabaseManager {
 			statement.setString(2, message);
 			statement.executeUpdate();
 			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean makeInsertion(String table, String columns, String values) {
+		PreparedStatement statement;
+		String insert = "INSERT INTO " + table + " (" + columns + " )" + "VALUES (" + values + ")";
+		try {
+			statement = connection.prepareStatement(insert);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
