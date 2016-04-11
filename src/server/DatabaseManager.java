@@ -269,7 +269,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject startJson(int type) {
+	public JSONObject startJson(String type) {
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.TYPE, type);
 		return obj;

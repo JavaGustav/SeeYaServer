@@ -64,8 +64,9 @@ public class Controller {
 			System.out.println(jsonObject.toString());
 			
 			//Checkar typ av meddelande.
-			int type;
-			type = (int) jsonObject.get(Constants.TYPE);
+			String type;
+			System.out.println("JSON: " + jsonObject.toString());
+			type = (String) jsonObject.get(Constants.TYPE);
 			if(type == Constants.NEWUSER){
 				createNewUser(clientHandler, jsonObject);
 			} else if(type == Constants.LOGIN){
