@@ -148,10 +148,12 @@ public class DatabaseManager {
 	}
 
 	public boolean registerNewUser(String userName, String passWord, String email) {
+		System.out.println("ADDING USER........");
 		if(connection == null) {   //TODO or connection.isClosed()
 			openConnection();
 		}
 		try {
+			System.out.println("ADDING USER........");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO"+
 					" users (username, password, email) VALUES (?, ?, ?)");
 			statement.setString(1, userName);

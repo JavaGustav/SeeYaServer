@@ -67,13 +67,15 @@ public class Controller {
 			String type;
 			System.out.println("JSON: " + jsonObject.toString());
 			type = (String) jsonObject.get(Constants.TYPE);
-			if(type == Constants.NEWUSER){
+			System.out.println("TYPE: " + type);
+			if(type.equals(Constants.NEWUSER)){
+				System.out.println("NEWUSER......................");
 				createNewUser(clientHandler, jsonObject);
-			} else if(type == Constants.LOGIN){
+			} else if(type.equals(Constants.LOGIN)){
 				logIn(clientHandler, jsonObject);
-			} else if(type == Constants.NEWACTIVITY){
+			} else if(type.equals(Constants.NEWACTIVITY)){
 				newActivity(clientHandler, jsonObject);
-			} else if(type == Constants.PUBLISH_ACTIVITY){
+			} else if(type.equals(Constants.PUBLISH_ACTIVITY)){
 //				publishActivity(clientHandler, jsonObject);
 			}
 			
