@@ -243,6 +243,7 @@ public class DatabaseManager {
 		return false;
 	}
 	
+	//TODO ???
 	public boolean makeInsertion(String table, String columns, String values) {
 		PreparedStatement statement;
 		String insert = "INSERT INTO " + table + " (" + columns + " )" + "VALUES (" + values + ")";
