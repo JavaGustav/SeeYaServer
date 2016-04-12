@@ -262,13 +262,12 @@ public class DatabaseManager {
 				mainArray.add(temp);
 			}
 			mainObj.put("mainCAT", mainArray);
-			System.out.println(mainObj.toString());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		return null;
+		return mainObj.toString();
 	}
-	
+
 	public boolean writeLog(int logType, String message) {
 		PreparedStatement statement;
 		try {
