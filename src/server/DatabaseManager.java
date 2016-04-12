@@ -226,6 +226,40 @@ public class DatabaseManager {
 	}
 	
 	public String getCategories() {
+		JSONObject mainObj = startJson(Constants.ACTIVITY_CATEGORIES);
+		Statement select;
+		Statement selectInner;
+		ResultSet resultOuter;
+		ResultSet resultInner;
+		JSONArray mainArray = new JSONArray();
+		JSONArray subArray = new JSONArray();
+		int index = 0;
+		try {
+			select = connection.createStatement();
+			resultOuter = select.executeQuery("SELECT id, title FROM mainCategories");
+			while(resultOuter.next()) {
+				index++;
+				JSONObject temp = new JSONObject();
+				int mainId = resultOuter.getInt(1);
+				String mainTitle = resultOuter.getString(2);
+				temp.put("name", mainTitle);
+				temp.put("id", mainId);
+				selectInner = connection.createStatement();
+				resultInner = selectInner.executeQuery("SELECT id, title FROM subcategories WHERE parentId = " + index);
+				while(resultInner.next()) {
+					JSONObject inner = new JSONObject();
+					inner.put("id", resultInner.getInt(1));
+					inner.put("name", resultInner.getString(2));
+					mainArray.add(inner);
+					mainObj.put("MAINCAT", mainArray);
+				}
+			}
+			System.out.println(mainObj.toString());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		String query = "SELECT title FROM mainCategories";
 		return null;
 	}
 	
@@ -283,6 +317,7 @@ public class DatabaseManager {
 		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 3);
-		db.writeLog(2, "TEST FROM SERVERAPPLICATION");
+		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
+		db.getCategories();
 	}
 }
