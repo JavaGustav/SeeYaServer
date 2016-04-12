@@ -245,9 +245,7 @@ public class DatabaseManager {
 				int mainId = resultOuter.getInt(1);
 				String mainTitle = resultOuter.getString(2);
 				temp.put("name", mainTitle);
-				System.out.println(mainId);
 				temp.put("id", mainId);
-				System.out.println(mainTitle);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
 						 + "subcategories WHERE parentId = " + index);
@@ -266,6 +264,10 @@ public class DatabaseManager {
 			e1.printStackTrace();
 		}
 		return mainObj.toString();
+	}
+
+	public String getLocations() {
+		return null;
 	}
 
 	public boolean writeLog(int logType, String message) {
