@@ -168,14 +168,13 @@ public class Controller {
 		String location = (String) jsonObject.get(Constants.PLACE);
 		int subcategory = (int) jsonObject.get(Constants.SUBCATEGORY); 
 		int maxnbr = (int) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
-		//int nbrOfParticipants = (int) jsonObject.get(Constants.NBR_OF_PARTICIPANTS);
-		int minnbr = (int) jsonObject.get(Constants.TIME);
+		int minNbrOfParticipants = (int) jsonObject.get(Constants.MIN_NBR_OF_PARTICIPANTS);
 		String date = (String) jsonObject.get(Constants.DATE); 
 		String time = (String) jsonObject.get(Constants.TIME); 	
 		String message = (String) jsonObject.get(Constants.MESSAGE);
 		String headline = (String) jsonObject.get(Constants.HEADLINE); 
 		
-		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minnbr, date, time, message, headline)){
+		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minNbrOfParticipants, date, time, message, headline)){
 			//Det gick att skapa den nya aktiviteten
 			String sendMessage = "Activity: " + "created succesfully";
 			String confirmation_type = "OK";
