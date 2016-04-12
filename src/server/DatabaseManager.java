@@ -225,41 +225,47 @@ public class DatabaseManager {
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String getCategories() {
 		JSONObject mainObj = startJson(Constants.ACTIVITY_CATEGORIES);
 		Statement select;
 		Statement selectInner;
 		ResultSet resultOuter;
 		ResultSet resultInner;
+		JSONArray jArray = new JSONArray();
 		JSONArray mainArray = new JSONArray();
-		JSONArray subArray = new JSONArray();
+		JSONObject temp = new JSONObject();
 		int index = 0;
 		try {
 			select = connection.createStatement();
 			resultOuter = select.executeQuery("SELECT id, title FROM mainCategories");
 			while(resultOuter.next()) {
 				index++;
-				JSONObject temp = new JSONObject();
+				temp = new JSONObject();
 				int mainId = resultOuter.getInt(1);
 				String mainTitle = resultOuter.getString(2);
 				temp.put("name", mainTitle);
+				System.out.println(mainId);
 				temp.put("id", mainId);
+				System.out.println(mainTitle);
 				selectInner = connection.createStatement();
-				resultInner = selectInner.executeQuery("SELECT id, title FROM subcategories WHERE parentId = " + index);
+				resultInner = selectInner.executeQuery("SELECT id, title FROM "
+						 + "subcategories WHERE parentId = " + index);
+				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
 					inner.put("id", resultInner.getInt(1));
 					inner.put("name", resultInner.getString(2));
-					mainArray.add(inner);
-					mainObj.put("MAINCAT", mainArray);
+					jArray.add(inner);
 				}
+				temp.put("subCat", jArray);
+				mainArray.add(temp);
 			}
+			mainObj.put("mainCAT", mainArray);
 			System.out.println(mainObj.toString());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
-		String query = "SELECT title FROM mainCategories";
 		return null;
 	}
 	
