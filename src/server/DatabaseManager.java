@@ -267,6 +267,15 @@ public class DatabaseManager {
 	}
 
 	public String getLocations() {
+		JSONObject mainObject = startJson(Constants.LOCATIONS);
+		Statement select;
+		Statement selectInner;
+		ResultSet resultOuter;
+		ResultSet resultInner;
+		JSONArray jArray = new JSONArray();
+		JSONArray mainArray = new JSONArray();
+		JSONObject temp = new JSONObject();
+		int index = 0;
 		return null;
 	}
 
