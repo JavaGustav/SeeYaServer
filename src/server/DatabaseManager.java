@@ -370,6 +370,6 @@ public class DatabaseManager {
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 	}
 }
