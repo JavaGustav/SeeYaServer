@@ -178,7 +178,7 @@ public class DatabaseManager {
 			openConnection();
 		}
 		try {
-			PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);
+			PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);;
 			statement.setLong(1, subCategory);
 			statement.setLong(2, maxNbr);
 			statement.setLong(3, minNbr);
@@ -187,7 +187,7 @@ public class DatabaseManager {
 			statement.setString(6, message);
 			statement.setString(7, owner);
 			statement.setString(8, headLine);
-			statement.executeQuery();
+			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -364,6 +364,7 @@ public class DatabaseManager {
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
-		db.getCategories();
+		//db.getCategories();
+		db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 	}
 }
