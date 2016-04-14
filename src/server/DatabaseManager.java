@@ -264,11 +264,12 @@ public class DatabaseManager {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+		//System.out.println(mainObj.toString());
 		return mainObj.toString();
 	}
 
 	public String getLocations() {
-		JSONObject mainObject = startJson(Constants.LOCATIONS);
+		JSONObject mainObj = startJson(Constants.LOCATIONS);
 		Statement select;
 		Statement selectInner;
 		ResultSet resultOuter;
@@ -277,7 +278,35 @@ public class DatabaseManager {
 		JSONArray mainArray = new JSONArray();
 		JSONObject temp = new JSONObject();
 		int index = 0;
-		return null;
+		try {
+			select = connection.createStatement();
+			resultOuter = select.executeQuery("SELECT id, title FROM mainCategories");
+			while(resultOuter.next()) {
+				index++;
+				temp = new JSONObject();
+				int mainId = resultOuter.getInt(1);
+				String mainTitle = resultOuter.getString(2);
+				temp.put("name", mainTitle);
+				temp.put("id", mainId);
+				selectInner = connection.createStatement();
+				resultInner = selectInner.executeQuery("SELECT id, title FROM "
+						 + "subcategories WHERE parentId = " + index);
+				jArray = new JSONArray();
+				while(resultInner.next()) {
+					JSONObject inner = new JSONObject();
+					inner.put("id", resultInner.getInt(1));
+					inner.put("name", resultInner.getString(2));
+					jArray.add(inner);
+				}
+				temp.put("subCat", jArray);
+				mainArray.add(temp);
+			}
+			mainObj.put("mainCAT", mainArray);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		//System.out.println(mainObj.toString());
+		return mainObj.toString();
 	}
 
 	public boolean writeLog(int logType, String message) {
