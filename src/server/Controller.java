@@ -173,9 +173,9 @@ public class Controller {
 	private void newActivity(ClientHandler clientHandler, JSONObject jsonObject){
 		String owner = (String) jsonObject.get(Constants.NAME);
 		String location = (String) jsonObject.get(Constants.PLACE);
-		int subcategory = (int) jsonObject.get(Constants.SUBCATEGORY); 
-		int maxnbr = (int) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
-		int minNbrOfParticipants = (int) jsonObject.get(Constants.MIN_NBR_OF_PARTICIPANTS);
+		long subcategory = (long) jsonObject.get(Constants.SUBCATEGORY); 
+		long maxnbr = (long) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
+		long minNbrOfParticipants = (long) jsonObject.get(Constants.MIN_NBR_OF_PARTICIPANTS);
 		String date = (String) jsonObject.get(Constants.DATE); 
 		String time = (String) jsonObject.get(Constants.TIME); 	
 		String message = (String) jsonObject.get(Constants.MESSAGE);
