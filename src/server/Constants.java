@@ -28,14 +28,16 @@ public final class Constants {
 	public static final String SUBCATEGORY = "19";
 	public static final String MIN_NBR_OF_PARTICIPANTS = "20";
 	public static final String PUBLISH_ACTIVITY = "21";
-	public static final String ACTIVITY_ID = "22";
+	public static final String ID = "22";
 	public static final String DATE = "23";
 	public static final String HEADLINE = "24";
 	public static final String ACTIVITY_OWNER = "25";
 	public static final String ACTIVITY_CATEGORIES = "26";
 	public static final String LOCATIONS = "27";
-	public static final String MAINCATEGORIES = "28";
+	public static final String MAINCATEGORY = "28";
 	public static final String VERSION_NBR = "29";
+	public static final String ARRAY_SUBCATEGORY = "30";
+	public static final String ARRAY_MAINCATEGORY = "31";
 
 	public static final String LOG_INFO = "100";
 	public static final String LOG_ERROR = "101";

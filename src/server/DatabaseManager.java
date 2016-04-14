@@ -99,7 +99,7 @@ public class DatabaseManager {
 			ResultSet result = select.executeQuery(GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
 			while(result.next()) {
 				JSONObject temp = new JSONObject();
-				temp.put(Constants.ACTIVITY_ID, result.getInt(1));
+				temp.put(Constants.ID, result.getInt(1));
 				temp.put(Constants.HEADLINE, result.getString(2));
 				jArray.add(temp);
 			}
@@ -245,22 +245,22 @@ public class DatabaseManager {
 				temp = new JSONObject();
 				int mainId = resultOuter.getInt(1);
 				String mainTitle = resultOuter.getString(2);
-				temp.put("name", mainTitle);
-				temp.put("id", mainId);
+				temp.put(Constants.NAME, mainTitle);
+				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
 						 + "subcategories WHERE parentId = " + index);
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
-					inner.put("id", resultInner.getInt(1));
-					inner.put("name", resultInner.getString(2));
+					inner.put(Constants.ID, resultInner.getInt(1));
+					inner.put(Constants.NAME, resultInner.getString(2));
 					jArray.add(inner);
 				}
-				temp.put("subCat", jArray);
+				temp.put(Constants.ARRAY_SUBCATEGORY, jArray);
 				mainArray.add(temp);
 			}
-			mainObj.put("mainCAT", mainArray);
+			mainObj.put(Constants.ARRAY_MAINCATEGORY, mainArray);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
