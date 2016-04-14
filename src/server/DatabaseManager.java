@@ -149,12 +149,10 @@ public class DatabaseManager {
 	}
 
 	public boolean registerNewUser(String userName, String passWord, String email) {
-		System.out.println("ADDING USER........");
 		if(connection == null) {   //TODO or connection.isClosed()
 			openConnection();
 		}
 		try {
-			System.out.println("ADDING USER........");
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO"+
 					" users (username, password, email) VALUES (?, ?, ?)");
 			statement.setString(1, userName);
@@ -192,14 +190,15 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return false;
 	}
 
 	public boolean publishActivity(int activityID) {
 		PreparedStatement statement;
 		try {
-			statement = connection.prepareStatement(SET_ACTIVITY_PUBLIC_QUERY + activityID);
+			statement = connection.prepareStatement("UPDATE activities SET "
+					+ "datePublished = NOW() WHERE id = " + activityID);
+			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -225,7 +224,7 @@ public class DatabaseManager {
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String getCategories() {
 		JSONObject mainObj = startJson(Constants.ACTIVITY_CATEGORIES);
@@ -268,6 +267,7 @@ public class DatabaseManager {
 		return mainObj.toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getLocations() {
 		JSONObject mainObj = startJson(Constants.LOCATIONS);
 		Statement select;
@@ -323,6 +323,11 @@ public class DatabaseManager {
 		return false;
 	}
 	
+	public int returnActivityID() {
+		int id = 0;
+		return id;
+	}
+	
 	//TODO ???
 	public boolean makeInsertion(String table, String columns, String values) {
 		PreparedStatement statement;
@@ -365,6 +370,6 @@ public class DatabaseManager {
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 	}
 }
