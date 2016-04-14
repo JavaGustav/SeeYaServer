@@ -19,7 +19,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
  */
 public class DatabaseManager {
 
-	private final String GET_PASSWORD_QUERY = "SELECT PASSWORD FROM users WHERE" +
+	private final String GET_PASSWORD_QUERY = "SELECT PASSWORD FROM users WHERE " +
 			"username = ";
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
 			" username = ";
@@ -124,6 +124,7 @@ public class DatabaseManager {
 		try {
 			select = connection.createStatement();
 			ResultSet result = select.executeQuery(GET_PASSWORD_QUERY + "'"+userName+"'");
+			result.first();
 			passWord = result.getString(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
