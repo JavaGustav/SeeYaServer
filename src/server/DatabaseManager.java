@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.sun.tools.internal.jxc.ap.Const;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -170,8 +171,8 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public boolean addNewActivity(String owner, String location, int subCategory,
-			int maxNbr, int minNbr, String date, 
+	public boolean addNewActivity(String owner, String location, long subCategory,
+			long maxNbr, long minNbr, String date,
 			String time, String message, String headLine) {
 		
 		if(connection == null) {
@@ -179,9 +180,9 @@ public class DatabaseManager {
 		}
 		try {
 			PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);
-			statement.setInt(1, subCategory);
-			statement.setInt(2, maxNbr);
-			statement.setInt(3, minNbr);
+			statement.setLong(1, subCategory);
+			statement.setLong(2, maxNbr);
+			statement.setLong(3, minNbr);
 			statement.setString(4, date);
 			statement.setString(5, time);
 			statement.setString(6, message);
@@ -286,22 +287,22 @@ public class DatabaseManager {
 				temp = new JSONObject();
 				int mainId = resultOuter.getInt(1);
 				String mainTitle = resultOuter.getString(2);
-				temp.put("name", mainTitle);
-				temp.put("id", mainId);
+				temp.put(Constants.NAME, mainTitle);
+				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
 						 + "subcategories WHERE parentId = " + index);
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
-					inner.put("id", resultInner.getInt(1));
-					inner.put("name", resultInner.getString(2));
+					inner.put(Constants.ID, resultInner.getInt(1));
+					inner.put(Constants.NAME, resultInner.getString(2));
 					jArray.add(inner);
 				}
-				temp.put("subCat", jArray);
+				temp.put(Constants.ARRAY_SUBCATEGORY, jArray);
 				mainArray.add(temp);
 			}
-			mainObj.put("mainCAT", mainArray);
+			mainObj.put(Constants.ARRAY_MAINCATEGORY, mainArray);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
