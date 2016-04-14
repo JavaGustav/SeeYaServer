@@ -76,7 +76,7 @@ public class Controller {
 			} else if(type.equals(Constants.NEWACTIVITY)){
 				newActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.PUBLISH_ACTIVITY)){
-//				publishActivity(clientHandler, jsonObject);
+				publishActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.ACTIVITY_CATEGORIES)) {
 				sendCategories(clientHandler);
 			}
@@ -204,24 +204,27 @@ public class Controller {
 	 * @param clientHandler
 	 * @param jsonObject
 	 */
-//	public void publishActivity(ClientHandler clientHandler, JSONObject jsonObject ){
-//		int activityID = (int) jsonObject.get(Constants.ACTIVITY_ID);
-//		
-//		if(databaseManager.publishActivity(int activityID)){
-//			
-//			String message = "Activity Id: " + activityID + " published";
-//			String confirmation_type = "OK";
-//			
-//			confirmMessage(clientHandler, message, confirmation_type);
-//			
-//		} else { //D� har det inte g�tt att lagra anv�ndaren
-//			
-//			String message = "Activity Id: " + activityID + " is NOT published";
-//			String error_type = "Rejected";
-//			
-//			errorMessage(clientHandler, message, error_type);
-//		}	
-//	}
+	public void publishActivity(ClientHandler clientHandler, JSONObject jsonObject ){
+		System.out.println("publishActivity, 1");
+		long activityID = (long) jsonObject.get(Constants.ID);
+		System.out.println("publishActivity 1");
+		System.out.println("activityID: " + activityID);
+		
+		if(databaseManager.publishActivity(activityID)){
+			
+			String message = "Activity Id: " + activityID + " published";
+			String confirmation_type = "OK";
+			
+			confirmMessage(clientHandler, message, confirmation_type);
+			
+		} else { //D� har det inte g�tt att lagra anv�ndaren
+			
+			String message = "Activity Id: " + activityID + " is NOT published";
+			String error_type = "Rejected";
+			
+			errorMessage(clientHandler, message, error_type);
+		}	
+	}
 	
 	public void confirmMessage(ClientHandler clientHandler, String message, String confirmation_type){
 		JSONObject jsonSendObject = new JSONObject();
