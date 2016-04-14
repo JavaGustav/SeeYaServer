@@ -193,7 +193,7 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public boolean publishActivity(int activityID) {
+	public boolean publishActivity(long activityID) {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement("UPDATE activities SET "
