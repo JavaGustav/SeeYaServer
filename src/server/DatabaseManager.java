@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.sun.tools.internal.jxc.ap.Const;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
