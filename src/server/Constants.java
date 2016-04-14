@@ -35,7 +35,8 @@ public final class Constants {
 	public static final String ACTIVITY_CATEGORIES = "26";
 	public static final String LOCATIONS = "27";
 	public static final String MAINCATEGORIES = "28";
-	
+	public static final String VERSION_NBR = "29";
+
 	public static final String LOG_INFO = "100";
 	public static final String LOG_ERROR = "101";
 
