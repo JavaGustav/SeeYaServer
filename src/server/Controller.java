@@ -77,6 +77,8 @@ public class Controller {
 				newActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.PUBLISH_ACTIVITY)){
 //				publishActivity(clientHandler, jsonObject);
+			} else if(type.equals(Constants.ACTIVITY_CATEGORIES)) {
+				sendCategories(clientHandler);
 			}
 			
 		} catch (ParseException e) {
@@ -85,6 +87,11 @@ public class Controller {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void sendCategories(ClientHandler clientHandler) {
+		String categories = databaseManager.getCategories();
+		clientHandler.send(categories);
 	}
 	
 	/**
