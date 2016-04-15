@@ -33,8 +33,6 @@ public class DatabaseManager {
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String SET_ACTIVITY_PUBLIC_QUERY = "UPDATE activities "
-			+ "SET public = 1 WHERE id = ";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
 			+ "VALUES(?, ?)";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -98,7 +96,6 @@ public class DatabaseManager {
 			result.first();
 			nbr = result.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return nbr;
@@ -127,6 +124,7 @@ public class DatabaseManager {
 		return mainObject.toString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String getOwnedActivitiesHeadlines(String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
 		JSONArray jArray = new JSONArray();
@@ -153,10 +151,6 @@ public class DatabaseManager {
 	//TODO
 	private void buildArray() {
 
-	}
-	//TODO
-	public String getActivity() {
-		return null;
 	}
 
 	public String getPassWord(String userName) {
@@ -304,7 +298,6 @@ public class DatabaseManager {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		//System.out.println(mainObj.toString());
 		return mainObj.toString();
 	}
 
@@ -346,7 +339,6 @@ public class DatabaseManager {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		//System.out.println(mainObj.toString());
 		return mainObj.toString();
 	}
 
@@ -414,6 +406,6 @@ public class DatabaseManager {
 		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(4);
-		db.getOwnedActivitiesHeadlines("GFGF");
+		//db.getOwnedActivitiesHeadlines("dfgh");
 	}
 }

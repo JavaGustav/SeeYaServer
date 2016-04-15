@@ -79,6 +79,8 @@ public class Controller {
 				publishActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.ACTIVITY_CATEGORIES)) {
 				sendCategories(clientHandler);
+			} else if(type.equals(Constants.MY_ACTIVITIES)) {
+				sendOwnedActivities(clientHandler, jsonObject);
 			}
 			
 		} catch (ParseException e) {
@@ -87,6 +89,13 @@ public class Controller {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void sendOwnedActivities(ClientHandler clientHandler, JSONObject json) {
+		String userName;
+		userName = (String)json.get(Constants.USERNAME);
+		String headLines = databaseManager.getOwnedActivitiesHeadlines(userName);
+		clientHandler.send(headLines);
 	}
 	
 	private void sendCategories(ClientHandler clientHandler) {
