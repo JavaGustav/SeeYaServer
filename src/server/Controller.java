@@ -81,6 +81,8 @@ public class Controller {
 				sendCategories(clientHandler);
 			} else if(type.equals(Constants.MY_ACTIVITIES)) {
 				sendOwnedActivities(clientHandler, jsonObject);
+			} else if(type.equals(Constants.LOCATIONS)) {
+				sendLocations(clientHandler);
 			}
 			
 		} catch (ParseException e) {
@@ -101,6 +103,11 @@ public class Controller {
 	private void sendCategories(ClientHandler clientHandler) {
 		String categories = databaseManager.getCategories();
 		clientHandler.send(categories);
+	}
+	
+	private void sendLocations(ClientHandler clientHandler) {
+		String locations = databaseManager.getLocations();
+		clientHandler.send(locations);
 	}
 	
 	/**
