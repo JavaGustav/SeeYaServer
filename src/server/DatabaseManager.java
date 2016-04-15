@@ -23,8 +23,10 @@ public class DatabaseManager {
 			"username = ";
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
 			" username = ";
-	private final String GET_ACTIVITIES_QUERY = "SELECT * FROM activities";
-	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine FROM "
+	private final String GET_ACTIVITIES_QUERY = "SELECT subCategory, "
+			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
+			+ "owner, headline FROM activities WHERE id = ";
+	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
 			+ "activities WHERE subCategory = ";
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
@@ -60,33 +62,44 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivities(String location, String category, long id) {
-		JSONObject mainObject = startJson(Constants.ACTIVITIES);
-		JSONArray jArray = new JSONArray();
+	public String getActivitiy(long id) {
+		JSONObject mainObject = startJson(Constants.ACTIVITIY);
 		Statement select;
 		try {
 			select = connection.createStatement();
-			ResultSet result = select.executeQuery(GET_ACTIVITIES_QUERY);
-			while(result.next()) {
-				JSONObject temp = new JSONObject();
-				temp.put(Constants.USERNAME, result.getString(1));
-				temp.put("category", result.getString(2));
-				temp.put(Constants.SUBCATEGORY, result.getString(3));
-				temp.put(Constants.MAX_NBROF_PARTICIPANTS, result.getString(4));
-				temp.put(Constants.MIN_NBR_OF_PARTICIPANTS, result.getString(5));
-				temp.put(Constants.DATE, result.getString(6));
-				temp.put(Constants.TIME, result.getString(7));
-				temp.put(Constants.MESSAGE, result.getString(8));
-				temp.put(Constants.ACTIVITY_OWNER, result.getString(9));
-				temp.put(Constants.HEADLINE, result.getString(10));
-				jArray.add(temp);
-			}
-			mainObject.put("activities", jArray);
-			System.out.println("RESULTS: \n" + mainObject.toString());
+			ResultSet result = select.executeQuery(GET_ACTIVITIES_QUERY + id);
+			result.first();
+			mainObject.put(Constants.ID, id);
+			mainObject.put(Constants.SUBCATEGORY, result.getString(1));
+			mainObject.put(Constants.MAX_NBROF_PARTICIPANTS, result.getInt(2));
+			mainObject.put(Constants.MIN_NBR_OF_PARTICIPANTS, result.getInt(3));
+			mainObject.put(Constants.DATE, result.getString(4));
+			mainObject.put(Constants.TIME, result.getString(5));
+			mainObject.put(Constants.MESSAGE, result.getString(6));
+			mainObject.put(Constants.ACTIVITY_OWNER, result.getString(7));
+			mainObject.put(Constants.HEADLINE, result.getString(8));
+			mainObject.put(Constants.NBR_OF_SIGNEDUP, getNumberOfSignUp(id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(mainObject.toString());
 		return mainObject.toString();
+	}
+
+	private long getNumberOfSignUp(long activityID) {
+		long nbr = 0;
+		Statement select;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery("SELECT COUNT(*) FROM signup"
+					+ " WHERE activityID = " + activityID);
+			result.first();
+			nbr = result.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nbr;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -101,9 +114,10 @@ public class DatabaseManager {
 				JSONObject temp = new JSONObject();
 				temp.put(Constants.ID, result.getInt(1));
 				temp.put(Constants.HEADLINE, result.getString(2));
+				temp.put(Constants.DATE, result.getString(3));
 				jArray.add(temp);
 			}
-			mainObject.put("headlines", jArray);
+			mainObject.put(Constants.ARRAY_HEADLINE, jArray);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +126,7 @@ public class DatabaseManager {
 	}
 	//TODO
 	private void buildArray() {
-		
+
 	}
 	//TODO
 	public String getActivity() {
@@ -172,7 +186,7 @@ public class DatabaseManager {
 	public boolean addNewActivity(String owner, String location, long subCategory,
 			long maxNbr, long minNbr, String date,
 			String time, String message, String headLine) {
-		
+
 		if(connection == null) {
 			openConnection();
 		}
@@ -249,7 +263,7 @@ public class DatabaseManager {
 				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
-						 + "subcategories WHERE parentId = " + index);
+						+ "subcategories WHERE parentId = " + index);
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
@@ -291,7 +305,7 @@ public class DatabaseManager {
 				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
-						 + "subcategories WHERE parentId = " + index);
+						+ "subcategories WHERE parentId = " + index);
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
@@ -323,12 +337,12 @@ public class DatabaseManager {
 		}
 		return false;
 	}
-	
+
 	public int returnActivityID() {
 		int id = 0;
 		return id;
 	}
-	
+
 	//TODO ???
 	public boolean makeInsertion(String table, String columns, String values) {
 		PreparedStatement statement;
@@ -373,5 +387,6 @@ public class DatabaseManager {
 		//db.getCategories();
 		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
+		db.getActivitiy(4);
 	}
 }
