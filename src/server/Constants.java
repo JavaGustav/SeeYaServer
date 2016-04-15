@@ -40,6 +40,7 @@ public final class Constants {
 	public static final String ARRAY_MAINCATEGORY = "31";
 	public static final String ARRAY_HEADLINE = "32";
 	public static final String NBR_OF_SIGNEDUP = "33";
+	public static final String MY_ACTIVITIES = "34";
 
 	public static final String LOG_INFO = "100";
 	public static final String LOG_ERROR = "101";

@@ -28,6 +28,8 @@ public class DatabaseManager {
 			+ "owner, headline FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
 			+ "activities WHERE subCategory = ";
+	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
+			+ ", date FROM activities WHERE owner = ";
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
@@ -124,6 +126,30 @@ public class DatabaseManager {
 		System.out.println(mainObject.toString());
 		return mainObject.toString();
 	}
+	
+	public String getOwnedActivitiesHeadlines(String userName) {
+		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
+		JSONArray jArray = new JSONArray();
+		Statement select;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery(GET_OWNED_ACTIVITIES_HEADLINES + 
+					"'"+userName+"'");
+			while(result.next()) {
+				JSONObject temp = new JSONObject();
+				temp.put(Constants.ID, result.getInt(1));
+				temp.put(Constants.HEADLINE, result.getString(2));
+				temp.put(Constants.DATE, result.getString(3));
+				jArray.add(temp);
+			}
+			mainObject.put(Constants.ARRAY_HEADLINE, jArray);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(mainObject.toString());
+		return mainObject.toString();
+	}
+
 	//TODO
 	private void buildArray() {
 
@@ -387,6 +413,7 @@ public class DatabaseManager {
 		//db.getCategories();
 		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
-		db.getActivitiy(4);
+		//db.getActivitiy(4);
+		db.getOwnedActivitiesHeadlines("GFGF");
 	}
 }

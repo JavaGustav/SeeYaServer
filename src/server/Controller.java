@@ -79,8 +79,6 @@ public class Controller {
 				publishActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.ACTIVITY_CATEGORIES)) {
 				sendCategories(clientHandler);
-			} else if(type.equals(Constants.ACTIVITY_HEADLINES)){
-				activityHeadlines(clientHandler, jsonObject);
 			}
 			
 		} catch (ParseException e) {
@@ -226,16 +224,6 @@ public class Controller {
 			
 			errorMessage(clientHandler, message, error_type);
 		}	
-	}
-	
-	/**
-	 * Hämtar alla aktivitetsrubriker och returnerar till klienten.
-	 * @param clientHandler
-	 * @param jsonObject
-	 */
-	public void activityHeadlines(ClientHandler clientHandler, JSONObject jsonObject){
-		String categories = databaseManager.getActivityHeadLines((long) jsonObject.get(Constants.ID));
-		clientHandler.send(categories);
 	}
 	
 	public void confirmMessage(ClientHandler clientHandler, String message, String confirmation_type){
