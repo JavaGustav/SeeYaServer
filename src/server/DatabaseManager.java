@@ -60,7 +60,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivities(String location, String category, int id) {
+	public String getActivities(String location, String category, long id) {
 		JSONObject mainObject = startJson(Constants.ACTIVITIES);
 		JSONArray jArray = new JSONArray();
 		Statement select;
@@ -90,7 +90,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivityHeadLines(int categoryId) {
+	public String getActivityHeadLines(long categoryId) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
 		JSONArray jArray = new JSONArray();
 		Statement select;
@@ -107,6 +107,7 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(mainObject.toString());
 		return mainObject.toString();
 	}
 	//TODO
@@ -210,12 +211,12 @@ public class DatabaseManager {
 		return null;
 	}
 
-	public boolean signUpForActivity(String userName, int activityID) {
+	public boolean signUpForActivity(String userName, long activityID) {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement("INSERT INTO "+
 					" signup VALUES (?, ?)");
-			statement.setInt(1, activityID);
+			statement.setLong(1, activityID);
 			statement.setString(2, userName);
 			statement.executeUpdate();
 			return true;
@@ -370,6 +371,7 @@ public class DatabaseManager {
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.getActivityHeadLines(1);
 	}
 }
