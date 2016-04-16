@@ -78,7 +78,7 @@ public class DatabaseManager {
 			mainObject.put(Constants.MESSAGE, result.getString(6));
 			mainObject.put(Constants.ACTIVITY_OWNER, result.getString(7));
 			mainObject.put(Constants.HEADLINE, result.getString(8));
-			mainObject.put(Constants.NBR_OF_SIGNEDUP, getNumberOfSignUp(id));
+			mainObject.put(Constants.NBR_OF_SIGNEDUP, getNumberOfSignedUp(id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -86,7 +86,7 @@ public class DatabaseManager {
 		return mainObject.toString();
 	}
 
-	private long getNumberOfSignUp(long activityID) {
+	private long getNumberOfSignedUp(long activityID) {
 		long nbr = 0;
 		Statement select;
 		try {
@@ -332,10 +332,10 @@ public class DatabaseManager {
 					inner.put(Constants.NAME, resultInner.getString(2));
 					jArray.add(inner);
 				}
-				temp.put(Constants.ARRAY_SUBCATEGORY, jArray);
+				temp.put(Constants.ARRAY_CITY, jArray);
 				mainArray.add(temp);
 			}
-			mainObj.put(Constants.ARRAY_MAINCATEGORY, mainArray);
+			mainObj.put(Constants.ARRAY_LANDSCAPE, mainArray);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
