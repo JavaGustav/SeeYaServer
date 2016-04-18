@@ -83,14 +83,21 @@ public class Controller {
 				sendOwnedActivities(clientHandler, jsonObject);
 			} else if(type.equals(Constants.LOCATIONS)) {
 				sendLocations(clientHandler);
+			} else if(type.equals(Constants.ACTIVITIY)) {
+				sendActivity(clientHandler, (long)jsonObject.get(Constants.ID));
 			}
-			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			System.out.println("No valid JSON-string: " + jsonString);
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void sendActivity(ClientHandler clientHandler, long id) {
+		String activity;
+		activity = databaseManager.getActivitiy(id);
+		clientHandler.send(activity);
 	}
 	
 	private void sendOwnedActivities(ClientHandler clientHandler, JSONObject json) {
@@ -159,21 +166,21 @@ public class Controller {
 					String message = "User: " + "logged in succesfully";
 					String confirmation_type = "OK";
 					
-					confirmMessage(clientHandler, message, confirmation_type);
+					confirmMessage(clientHandler, message, Constants.LOGIN_OK);
 					clientHandler.setUserName(userName);
 				} else { //Fel passord.
 
 					String message = "Wrong password";
 					String error_type = "Rejected";
 					
-					errorMessage(clientHandler, message, error_type);
+					errorMessage(clientHandler, message, Constants.LOGIN_FAIL);
 				}
 			} else { //Anv�ndaren finns inte i databasen
 				
 				String message = "User not in database";
 				String error_type = "Rejected";
 				
-				errorMessage(clientHandler, message, error_type);
+				errorMessage(clientHandler, message, Constants.LOGIN_FAIL);
 			}
 			
 		}catch (SQLException e){

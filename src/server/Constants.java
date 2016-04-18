@@ -43,6 +43,8 @@ public final class Constants {
 	public static final String MY_ACTIVITIES = "34";
 	public static final String ARRAY_LANDSCAPE = "35";
 	public static final String ARRAY_CITY = "36";
+	public static final String LOGIN_OK = "37";
+	public static final String LOGIN_FAIL = "38";
 
 	public static final String LOG_INFO = "100";
 	public static final String LOG_ERROR = "101";
