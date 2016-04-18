@@ -32,7 +32,7 @@ public class DatabaseManager {
 			+ ", date FROM activities WHERE owner = ";
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
-			+ "time, message, owner, headLine) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "time, message, owner, headLine, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
 			+ "VALUES(?, ?)";
 	private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -222,7 +222,7 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public boolean addNewActivity(String owner, String location, long subCategory,
+	public boolean addNewActivity(String owner, long location, long subCategory,
 			long maxNbr, long minNbr, String date,
 			String time, String message, String headLine) {
 
@@ -239,6 +239,7 @@ public class DatabaseManager {
 			statement.setString(6, message);
 			statement.setString(7, owner);
 			statement.setString(8, headLine);
+			statement.setLong(9, location);
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -422,9 +423,9 @@ public class DatabaseManager {
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
-		db.getActivitiy(19);
+		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 	}
 }
