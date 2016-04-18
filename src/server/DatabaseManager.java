@@ -25,7 +25,7 @@ public class DatabaseManager {
 			" username = ";
 	private final String GET_ACTIVITIES_QUERY = "SELECT subCategory, "
 			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
-			+ "owner, headline, datePublished FROM activities WHERE id = ";
+			+ "owner, headline, datePublished, location FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
 			+ "activities WHERE subCategory = ";
 	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
@@ -80,11 +80,29 @@ public class DatabaseManager {
 			mainObject.put(Constants.HEADLINE, result.getString(8));
 			mainObject.put(Constants.NBR_OF_SIGNEDUP, getNumberOfSignedUp(id));
 			mainObject.put(Constants.DATE_PUBLISHED, result.getString(9));
+			long location = result.getInt(10);
+			mainObject.put(Constants.PLACE, getLocationName(location));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println(mainObject.toString());
 		return mainObject.toString();
+	}
+	
+	//TODO remove
+	private String getLocationName(long id) {
+		Statement select;
+		String name = "";
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery("SELECT title FROM cities WHERE"
+					+ " id = " + id);
+			result.first();
+			name = result.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 
 	private long getNumberOfSignedUp(long activityID) {
@@ -406,7 +424,7 @@ public class DatabaseManager {
 		//db.getCategories();
 		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
-		//db.getActivitiy(19);
+		db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 	}
 }
