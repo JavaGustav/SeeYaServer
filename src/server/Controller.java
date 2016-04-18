@@ -160,7 +160,7 @@ public class Controller {
 					String confirmation_type = "OK";
 					
 					confirmMessage(clientHandler, message, confirmation_type);
-					
+					clientHandler.setUserName(userName);
 				} else { //Fel passord.
 
 					String message = "Wrong password";

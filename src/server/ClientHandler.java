@@ -16,6 +16,7 @@ public class ClientHandler implements Runnable {
 	private Socket socket;
 	private DataInputStream dis;
 	private DataOutputStream dos;
+	private String userName;
 	
 	/**
 	 * Konstruktor. 
@@ -28,7 +29,7 @@ public class ClientHandler implements Runnable {
 	}
 	
 	/**
-	 * Tar emot meddelanden från klienten och skickar detta vidare till Controllern.
+	 * Tar emot meddelanden frï¿½n klienten och skickar detta vidare till Controllern.
 	 */
 	public void run() {
 		String jsonString;
@@ -38,6 +39,7 @@ public class ClientHandler implements Runnable {
 			while(true){
 				jsonString = dis.readUTF();
 				System.out.println("ClientHandler, run, recieved new message from client");
+				
 				controller.processCommand(this,jsonString);
 			}
 			
@@ -70,5 +72,9 @@ public class ClientHandler implements Runnable {
 		} catch (IOException e) {
 			// Logga
 		}
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }
