@@ -91,7 +91,7 @@ public class Controller {
 			System.out.println("No valid JSON-string: " + jsonString);
 			e.printStackTrace();
 		}
-		
+
 	}
 	
 	private void sendActivity(ClientHandler clientHandler, long id) {

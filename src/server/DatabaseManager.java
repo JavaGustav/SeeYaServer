@@ -314,7 +314,7 @@ public class DatabaseManager {
 		int index = 0;
 		try {
 			select = connection.createStatement();
-			resultOuter = select.executeQuery("SELECT id, title FROM mainCategories");
+			resultOuter = select.executeQuery("SELECT id, title FROM landscapes");
 			while(resultOuter.next()) {
 				index++;
 				temp = new JSONObject();
@@ -324,7 +324,7 @@ public class DatabaseManager {
 				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
-						+ "subcategories WHERE parentId = " + index);
+						+ "cities WHERE parentId = " + index);
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
