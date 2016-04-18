@@ -25,7 +25,7 @@ public class DatabaseManager {
 			" username = ";
 	private final String GET_ACTIVITIES_QUERY = "SELECT subCategory, "
 			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
-			+ "owner, headline FROM activities WHERE id = ";
+			+ "owner, headline, datePublished FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
 			+ "activities WHERE subCategory = ";
 	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
@@ -79,6 +79,7 @@ public class DatabaseManager {
 			mainObject.put(Constants.ACTIVITY_OWNER, result.getString(7));
 			mainObject.put(Constants.HEADLINE, result.getString(8));
 			mainObject.put(Constants.NBR_OF_SIGNEDUP, getNumberOfSignedUp(id));
+			mainObject.put(Constants.DATE_PUBLISHED, result.getString(9));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -405,7 +406,7 @@ public class DatabaseManager {
 		//db.getCategories();
 		//db.addNewActivity("GFGF", "2", 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
-		//db.getActivitiy(4);
+		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 	}
 }
