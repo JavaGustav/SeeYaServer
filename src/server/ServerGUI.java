@@ -62,7 +62,7 @@ public class ServerGUI extends JPanel implements ActionListener{
     public void writeLogToGUI(String text){
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-		    	taLog.append(text);
+		    	taLog.append(text + "\n");
 			}
 		});
 

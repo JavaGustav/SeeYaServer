@@ -41,10 +41,13 @@ public class DatabaseManager {
 
 	private final String USERNAME = "AD4063";
 	private final String PASSWORD = "sys100";
+	
+	private Controller controller;
 
 	Connection connection = null;
 
-	public DatabaseManager() {
+	public DatabaseManager(Controller controller) {
+		this.controller = controller;
 		initConnection();
 	}
 
@@ -213,6 +216,7 @@ public class DatabaseManager {
 			statement.setString(2, passWord);
 			statement.setString(3, email);
 			statement.executeUpdate();
+			controller.log(Constants.LOG_INFO, "New user added: " + userName);
 			return true;
 		} catch (MySQLIntegrityConstraintViolationException e2) {
 			//TODO if the username already exists. Check here?
@@ -241,6 +245,7 @@ public class DatabaseManager {
 			statement.setString(8, headLine);
 			statement.setLong(9, location);
 			statement.executeUpdate();
+			controller.log(Constants.LOG_INFO, "New activity created");
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();

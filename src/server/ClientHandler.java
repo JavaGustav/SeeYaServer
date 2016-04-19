@@ -45,6 +45,8 @@ public class ClientHandler implements Runnable {
 			
 		} catch(IOException e){
 			//Logga
+			String ip = "" + socket.getInetAddress();
+			controller.log(Constants.LOG_INFO, "Client disconnected " + ip);
 		} finally {
 			if(dis != null){
 				try{

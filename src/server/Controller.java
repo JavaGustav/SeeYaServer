@@ -32,7 +32,7 @@ public class Controller {
 			}
 		});
 		
-		databaseManager = new DatabaseManager();
+		databaseManager = new DatabaseManager(this);
 
 	}
 	

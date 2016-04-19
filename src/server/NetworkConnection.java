@@ -19,7 +19,7 @@ public class NetworkConnection extends Thread {
 	private ServerSocket serverSocket;
 	private Controller controller;
 	private Socket socket;
-	
+
 	public NetworkConnection(Controller controller, int port) {
 		this.controller = controller;
 		this.port = port;
