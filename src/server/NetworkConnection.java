@@ -40,6 +40,8 @@ public class NetworkConnection extends Thread {
 			try {
 				socket = serverSocket.accept();
 				System.out.println("NetworkConnection, run, new client connected");
+				controller.log(Constants.LOG_INFO, "Client connected, "
+						+ socket.getInetAddress());
 				new Thread(new ClientHandler(controller, socket)).start();
 			} catch (IOException e) {
 				//e.printStackTrace();

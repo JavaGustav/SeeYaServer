@@ -18,11 +18,13 @@ public class Controller {
 	private NetworkConnection networkConnection;
 	private Controller controller = this;
 	private DatabaseManager databaseManager;
+	private TimeDate time;
 	
 	/**
 	 * Konstruktor. Skapar GUI och NetworkConnection
 	 */
 	public Controller(){
+		time = new TimeDate();
 		SwingUtilities.invokeLater(new Runnable(){
 
 			public void run() {
@@ -248,7 +250,7 @@ public class Controller {
 			errorMessage(clientHandler, message, error_type);
 		}	
 	}
-	
+
 	public void confirmMessage(ClientHandler clientHandler, String message, String confirmation_type){
 		JSONObject jsonSendObject = new JSONObject();
 
@@ -268,7 +270,14 @@ public class Controller {
 
 		clientHandler.send(jsonSendObject.toString());
 	}
-	
+
+	public void log(String logType, String message) {
+		databaseManager.writeLog(logType, message);
+		String date = time.getDateTime();
+		String txt = date + " " + logType + " " + message;
+		serverGUI.writeLogToGUI(txt);
+	}
+
 	public static void main(String[] args){
 		Controller controller = new Controller();
 	}

@@ -362,11 +362,11 @@ public class DatabaseManager {
 		return mainObj.toString();
 	}
 
-	public boolean writeLog(int logType, String message) {
+	public boolean writeLog(String logType, String message) {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement(WRITE_LOG_QUERY);
-			statement.setInt(1,  logType);
+			statement.setString(1,  logType);
 			statement.setString(2, message);
 			statement.executeUpdate();
 			return true;
