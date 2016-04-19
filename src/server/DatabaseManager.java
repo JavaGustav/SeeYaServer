@@ -422,13 +422,13 @@ public class DatabaseManager {
 	}
 
 	public static void main(String args[]) {
-		DatabaseManager db = new DatabaseManager();
+		//DatabaseManager db = new DatabaseManager();
 		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
