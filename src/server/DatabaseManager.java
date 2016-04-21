@@ -35,6 +35,7 @@ public class DatabaseManager {
 			+ "time, message, owner, headLine, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
 			+ "VALUES(?, ?)";
+	
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
 	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
@@ -130,7 +131,8 @@ public class DatabaseManager {
 		Statement select;
 		try {
 			select = connection.createStatement();
-			ResultSet result = select.executeQuery(GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
+			ResultSet result = select.executeQuery(
+					GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
 			while(result.next()) {
 				JSONObject temp = new JSONObject();
 				temp.put(Constants.ID, result.getInt(1));
@@ -180,7 +182,8 @@ public class DatabaseManager {
 		String passWord = null;
 		try {
 			select = connection.createStatement();
-			ResultSet result = select.executeQuery(GET_PASSWORD_QUERY + "'"+userName+"'");
+			ResultSet result = select.executeQuery(
+					GET_PASSWORD_QUERY + "'"+userName+"'");
 			result.first();
 			passWord = result.getString(1);
 		} catch (SQLException e) {
@@ -234,7 +237,8 @@ public class DatabaseManager {
 			openConnection();
 		}
 		try {
-			PreparedStatement statement = connection.prepareStatement(ADD_NEW_ACTIVITY_QUERY);;
+			PreparedStatement statement = connection.prepareStatement(
+					ADD_NEW_ACTIVITY_QUERY);;
 			statement.setLong(1, subCategory);
 			statement.setLong(2, maxNbr);
 			statement.setLong(3, minNbr);
