@@ -292,7 +292,8 @@ public class DatabaseManager {
 	public String getUsers() {
 		return null;
 	}
-
+	
+	//TODO move to Controller???
 	public boolean checkIfActivityIsFull(long activityId) {
 		long maxNbr = getMaxNbrOfParticipants(activityId);
 		long signedUp = getNumberOfSignedUp(activityId);
