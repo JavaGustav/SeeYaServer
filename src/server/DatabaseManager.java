@@ -370,6 +370,18 @@ public class DatabaseManager {
 		}
 		return mainObj.toString();
 	}
+	
+	public String getVersion(String version) {
+		Statement select;
+		ResultSet result;
+		try {
+			select = connection.createStatement();
+			//result = select.executeQuery(()
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public boolean writeLog(String logType, String message) {
 		PreparedStatement statement;

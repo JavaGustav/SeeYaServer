@@ -87,6 +87,12 @@ public class Controller {
 				sendLocations(clientHandler);
 			} else if(type.equals(Constants.ACTIVITIY)) {
 				sendActivity(clientHandler, (long)jsonObject.get(Constants.ID));
+			} else if(type.equals(Constants.LOCATIONS_VERSION_NBR)) {
+				String version = (String)jsonObject.get(Constants.ID);
+				checkLocationsVersion(clientHandler, version);
+			} else if(type.equals(Constants.CATEGORIES_VERSION_NUMBER)) {
+				String version = (String)jsonObject.get(Constants.ID);
+				checkCategoriesVersion(clientHandler, version);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -94,6 +100,14 @@ public class Controller {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void checkLocationsVersion(ClientHandler clientHandler, String version) {
+		
+	}
+	
+	private void checkCategoriesVersion(ClientHandler clientHandler, String version) {
+		
 	}
 	
 	private void sendActivity(ClientHandler clientHandler, long id) {

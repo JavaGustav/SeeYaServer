@@ -35,7 +35,7 @@ public final class Constants {
 	public static final String ACTIVITY_CATEGORIES = "26";
 	public static final String LOCATIONS = "27";
 	public static final String MAINCATEGORY = "28";
-	public static final String VERSION_NBR = "29";
+	public static final String LOCATIONS_VERSION_NBR = "29";
 	public static final String ARRAY_SUBCATEGORY = "30";
 	public static final String ARRAY_MAINCATEGORY = "31";
 	public static final String ARRAY_HEADLINE = "32";
@@ -48,6 +48,7 @@ public final class Constants {
 	public static final String DATE_PUBLISHED = "39";
 	public static final String LOCATIONS_CONFIRMATION = "40";
 	public static final String CATEGORIES_CONFIRMATION = "41";
+	public static final String CATEGORIES_VERSION_NUMBER = "42";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
