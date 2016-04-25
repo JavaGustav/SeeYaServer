@@ -93,6 +93,10 @@ public class Controller {
 			} else if(type.equals(Constants.CATEGORIES_VERSION_NUMBER)) {
 				String version = (String)jsonObject.get(Constants.ID);
 				checkCategoriesVersion(clientHandler, version);
+			} else if(type.equals(Constants.SIGNUP)) {
+				
+			} else if(type.equals(Constants.UNREGISTER)) {
+				
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

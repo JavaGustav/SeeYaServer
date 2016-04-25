@@ -52,6 +52,7 @@ public final class Constants {
 	public static final String SIGNUP = "43";
 	public static final String UNREGISTER = "44";
 	public static final String SIGNUP_CONFIRMATION = "45";
+	public static final String SIGNUP_ERROR = "46";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
