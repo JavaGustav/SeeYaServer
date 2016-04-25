@@ -125,6 +125,23 @@ public class DatabaseManager {
 		}
 		return nbr;
 	}
+	
+	private long getMaxNbrOfParticipants(long activityId) {
+		long maxNbr = -1;
+		Statement select;
+		ResultSet result;
+		try {
+			select = connection.createStatement();
+			result = select.executeQuery("SELECT maxnbrofparticipants FROM activities"
+					+ " WHERE id = " + activityId);
+			result.first();
+			maxNbr = result.getLong(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return maxNbr;
+	}
 
 	@SuppressWarnings("unchecked")
 	public String getActivityHeadLines(long categoryId) {
@@ -276,6 +293,15 @@ public class DatabaseManager {
 		return null;
 	}
 
+	public boolean checkIfActivityIsFull(long activityId) {
+		long maxNbr = getMaxNbrOfParticipants(activityId);
+		long signedUp = getNumberOfSignedUp(activityId);
+		if(maxNbr == signedUp) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean signUpForActivity(String userName, long activityID) {
 		PreparedStatement statement;
 		try {
@@ -375,7 +401,7 @@ public class DatabaseManager {
 		}
 		return mainObj.toString();
 	}
-	
+
 	public String getVersion(String version) {
 		String line = null;
 		if(version.equals(Constants.LOCATIONS)) {
