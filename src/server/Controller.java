@@ -102,12 +102,26 @@ public class Controller {
 
 	}
 	
-	private void checkLocationsVersion(ClientHandler clientHandler, String version) {
-		
+	private void checkLocationsVersion(ClientHandler clientHandler, String userVersion) {
+		String currentVersion = databaseManager.getVersion(Constants.LOCATIONS);
+		if(currentVersion.equals(userVersion)) {
+			JSONObject json = new JSONObject();
+			json.put(Constants.TYPE, Constants.LOCATIONS_CONFIRMATION);
+			clientHandler.send(json.toString());
+		} else {
+			sendCategories(clientHandler);
+		}
 	}
 	
-	private void checkCategoriesVersion(ClientHandler clientHandler, String version) {
-		
+	private void checkCategoriesVersion(ClientHandler clientHandler, String userVersion) {
+		String currentVersion = databaseManager.getVersion(Constants.ACTIVITY_CATEGORIES);
+		if(currentVersion.equals(userVersion)) {
+			JSONObject json = new JSONObject();
+			json.put(Constants.TYPE, Constants.CATEGORIES_CONFIRMATION);
+			clientHandler.send(json.toString());
+		} else {
+			sendLocations(clientHandler);
+		}
 	}
 	
 	private void sendActivity(ClientHandler clientHandler, long id) {

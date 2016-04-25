@@ -35,6 +35,8 @@ public class DatabaseManager {
 			+ "time, message, owner, headLine, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
 			+ "VALUES(?, ?)";
+	private final String GET_VERSION_QUERY = "SELECT version FROM versions"
+			+ " WHERE title = ";
 	
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
@@ -292,6 +294,8 @@ public class DatabaseManager {
 	@SuppressWarnings("unchecked")
 	public String getCategories() {
 		JSONObject mainObj = startJson(Constants.ACTIVITY_CATEGORIES);
+		mainObj.put(Constants.CATEGORIES_VERSION_NUMBER, 
+				getVersion(Constants.ACTIVITY_CATEGORIES));
 		Statement select;
 		Statement selectInner;
 		ResultSet resultOuter;
@@ -333,6 +337,7 @@ public class DatabaseManager {
 	@SuppressWarnings("unchecked")
 	public String getLocations() {
 		JSONObject mainObj = startJson(Constants.LOCATIONS);
+		mainObj.put(Constants.LOCATIONS_VERSION_NBR, getVersion(Constants.LOCATIONS));
 		Statement select;
 		Statement selectInner;
 		ResultSet resultOuter;
@@ -372,11 +377,21 @@ public class DatabaseManager {
 	}
 	
 	public String getVersion(String version) {
+		String line = null;
+		if(version.equals(Constants.LOCATIONS)) {
+			line = "locations";
+		} else if(version.equals(Constants.ACTIVITY_CATEGORIES)) {
+			line = "categories";
+		}
 		Statement select;
 		ResultSet result;
 		try {
 			select = connection.createStatement();
-			//result = select.executeQuery(()
+			result = select.executeQuery(GET_VERSION_QUERY + "'"+line+"'");
+			result.first();
+			String currentVersion = result.getString(1);
+			System.out.println(currentVersion);
+			return currentVersion;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -438,7 +453,7 @@ public class DatabaseManager {
 	}
 
 	public static void main(String args[]) {
-		//DatabaseManager db = new DatabaseManager();
+		DatabaseManager db = new DatabaseManager(null);
 		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 3);
@@ -448,5 +463,6 @@ public class DatabaseManager {
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
+		db.getVersion(Constants.ACTIVITY_CATEGORIES);
 	}
 }
