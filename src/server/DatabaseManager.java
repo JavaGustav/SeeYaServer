@@ -111,7 +111,7 @@ public class DatabaseManager {
 		return name;
 	}
 
-	private long getNumberOfSignedUp(long activityID) {
+	public long getNumberOfSignedUp(long activityID) {
 		long nbr = 0;
 		Statement select;
 		try {
@@ -126,7 +126,7 @@ public class DatabaseManager {
 		return nbr;
 	}
 	
-	private long getMaxNbrOfParticipants(long activityId) {
+	public long getMaxNbrOfParticipants(long activityId) {
 		long maxNbr = -1;
 		Statement select;
 		ResultSet result;
@@ -292,24 +292,15 @@ public class DatabaseManager {
 	public String getUsers() {
 		return null;
 	}
-	
-	//TODO move to Controller???
-	public boolean checkIfActivityIsFull(long activityId) {
-		long maxNbr = getMaxNbrOfParticipants(activityId);
-		long signedUp = getNumberOfSignedUp(activityId);
-		if(maxNbr == signedUp) {
-			return true;
-		}
-		return false;
-	}
 
 	public boolean signUpForActivity(String userName, long activityID) {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement("INSERT INTO "+
-					" signup VALUES (?, ?)");
+					" signup VALUES (?, ?, ?, ?)");
 			statement.setLong(1, activityID);
 			statement.setString(2, userName);
+			
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -439,6 +430,7 @@ public class DatabaseManager {
 		return false;
 	}
 
+	//TODO
 	public int returnActivityID() {
 		int id = 0;
 		return id;
@@ -483,13 +475,13 @@ public class DatabaseManager {
 		DatabaseManager db = new DatabaseManager(null);
 		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
-		//db.signUpForActivity("Liza", 3);
+		db.signUpForActivity("Liza", 3);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
 		//db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
-		db.getVersion(Constants.ACTIVITY_CATEGORIES);
+		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
 	}
 }
