@@ -38,7 +38,7 @@ public final class Constants {
 	public static final String LOCATIONS_VERSION_NBR = "29";
 	public static final String ARRAY_SUBCATEGORY = "30";
 	public static final String ARRAY_MAINCATEGORY = "31";
-	public static final String ARRAY_HEADLINE = "32";
+	public static final String ARRAY_HEADLINE = "32";	//TODO remove?
 	public static final String NBR_OF_SIGNEDUP = "33";
 	public static final String MY_ACTIVITIES = "34";
 	public static final String ARRAY_LANDSCAPE = "35";
@@ -59,6 +59,10 @@ public final class Constants {
 	public static final String NEW_ACTIVITY_ERROR = "50";
 	public static final String NEW_USER_CONFIRMATION = "51";
 	public static final String NEW_USER_ERROR = "52";
+	public static final String GET_CATEGORIES_WITH_ACTIVITIES =  "53";
+	public static final String GET_CATEGORIES_WITH_OWNED_ACTIVITIES = "54";
+	public static final String GET_HEADLINES_FOR_CATEGORY = "55";
+	public static final String GET_HEADLINES_FOR_CATEGORY_FOR_OWN_ACTIVITIES = "56";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
