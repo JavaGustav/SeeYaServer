@@ -53,6 +53,12 @@ public final class Constants {
 	public static final String UNREGISTER = "44";
 	public static final String SIGNUP_CONFIRMATION = "45";
 	public static final String SIGNUP_ERROR = "46";
+	public static final String PUBLISH_ACTIVITY_CONFIRMATION = "47";
+	public static final String PUBLISH_ACTIVITY_ERROR = "48";
+	public static final String NEW_ACTIVTIY_CONFIRMATION = "49";
+	public static final String NEW_ACTIVITY_ERROR = "50";
+	public static final String NEW_USER_CONFIRMATION = "51";
+	public static final String NEW_USER_ERROR = "52";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";

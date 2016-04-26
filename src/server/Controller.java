@@ -94,6 +94,7 @@ public class Controller {
 				String version = (String)jsonObject.get(Constants.ID);
 				checkCategoriesVersion(clientHandler, version);
 			} else if(type.equals(Constants.SIGNUP)) {
+				signUpForActivity(clientHandler, jsonObject);
 				
 			} else if(type.equals(Constants.UNREGISTER)) {
 				
@@ -106,16 +107,12 @@ public class Controller {
 
 	}
 	
-	private void sendJson(ClientHandler clientHandler, String type) {
-		JSONObject json = new JSONObject();
-		json.put(Constants.TYPE, type);
-		clientHandler.send(json.toString());
-	}
-	
+
 	private void checkLocationsVersion(ClientHandler clientHandler, String userVersion) {
 		String currentVersion = databaseManager.getVersion(Constants.LOCATIONS);
 		if(currentVersion.equals(userVersion)) {
-			sendJson(clientHandler, Constants.LOCATIONS_CONFIRMATION);
+			String message = "Version up to date";
+			confirmMessage(clientHandler, Constants.LOCATIONS_CONFIRMATION, message);
 		} else {
 			sendLocations(clientHandler);
 		}
@@ -124,7 +121,9 @@ public class Controller {
 	private void checkCategoriesVersion(ClientHandler clientHandler, String userVersion) {
 		String currentVersion = databaseManager.getVersion(Constants.ACTIVITY_CATEGORIES);
 		if(currentVersion.equals(userVersion)) {
-			sendJson(clientHandler, Constants.CATEGORIES_CONFIRMATION);
+			String message = "Version up to date";
+			confirmMessage(clientHandler, Constants.CATEGORIES_CONFIRMATION, message);
+			
 		} else {
 			sendCategories(clientHandler);
 		}
@@ -169,16 +168,14 @@ public class Controller {
 		if(databaseManager.registerNewUser(userName, passWord,email)){
 			
 			String message = "User: " + userName + " created";
-			String confirmation_type = "OK";
 			
-			confirmMessage(clientHandler, message, confirmation_type);
+			confirmMessage(clientHandler, Constants.NEW_USER_CONFIRMATION, message);
 			
 		} else { //Dï¿½ har det inte gï¿½tt att lagra anvï¿½ndaren
 			
 			String message = "User: " + userName + " is NOT created";
-			String error_type = "Rejected";
 			
-			errorMessage(clientHandler, message, error_type);
+			errorMessage(clientHandler, Constants.NEW_USER_ERROR, message);
 		}
 	}
 	
@@ -200,16 +197,14 @@ public class Controller {
 				if(passWord.equals(databaseManager.getPassWord(userName))){ //Korrekt passord.
 					
 					String message = "User: " + "logged in succesfully";
-					String confirmation_type = "OK";
 					
-					confirmMessage(clientHandler, message, Constants.LOGIN_OK);
+					confirmMessage(clientHandler, Constants.LOGIN_OK, message);
 					clientHandler.setUserName(userName);
 				} else { //Fel passord.
 
 					String message = "Wrong password";
-					String error_type = "Rejected";
 					
-					errorMessage(clientHandler, message, Constants.LOGIN_FAIL);
+					errorMessage(clientHandler, Constants.LOGIN_FAIL, message);
 				}
 			} else { //Anvï¿½ndaren finns inte i databasen
 				
@@ -243,15 +238,14 @@ public class Controller {
 		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minNbrOfParticipants, date, time, message, headline)){
 			//Det gick att skapa den nya aktiviteten
 			String sendMessage = "Activity: " + "created succesfully";
-			String confirmation_type = "OK";
 			
-			confirmMessage(clientHandler, message, confirmation_type);
+			confirmMessage(clientHandler, Constants.NEW_ACTIVTIY_CONFIRMATION ,message);
 			
 		} else { //Det gick inte att skapa den nya aktiviteten
 			String sendMessage = "Activity not created in database";
 			String error_type = "Rejected";
 			
-			errorMessage(clientHandler, message, error_type);
+			errorMessage(clientHandler, Constants.NEW_ACTIVITY_ERROR, message);
 		}
 	}
 	
@@ -272,35 +266,54 @@ public class Controller {
 		if(databaseManager.publishActivity(activityID)){
 			
 			String message = "Activity Id: " + activityID + " published";
-			String confirmation_type = "OK";
 			
-			confirmMessage(clientHandler, message, confirmation_type);
+			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, message);
 			
 		} else { //Dï¿½ har det inte gï¿½tt att lagra anvï¿½ndaren
 			
+			String errorType = Constants.PUBLISH_ACTIVITY_ERROR;
 			String message = "Activity Id: " + activityID + " is NOT published";
-			String error_type = "Rejected";
 			
-			errorMessage(clientHandler, message, error_type);
+			errorMessage(clientHandler,errorType, message);
 		}	
 	}
+	
+	/**
+	 * Låter användare anmäla sig till en aktivitet förutsatt att max antal deltagare inte överskrids.
+	 * @param clientHandler. Klienthanteraren varifrån anropet kom och dit svaret ska skickas.
+	 * @param jsonObject. JSON-objektet med begäran om att anmäla till aktivitet.
+	 */
+	public void signUpForActivity(ClientHandler clientHandler, JSONObject jsonObject){
+			long maxNbr = databaseManager.getMaxNbrOfParticipants((long) jsonObject.get(Constants.ID));
+			long signedUp = databaseManager.getNumberOfSignedUp((long) jsonObject.get(Constants.ID));
+			if(maxNbr == signedUp) { // Aktiviteten är fulltecknad.
+				String message = "Activity is full";
+				errorMessage(clientHandler, Constants.SIGNUP_ERROR, message);
+			} else if(databaseManager.signUpForActivity(Constants.USERNAME, Long.parseLong(Constants.ID))){
+				String message = "User: " + jsonObject.get(Constants.USERNAME) + " is signed up";
+				confirmMessage(clientHandler, Constants.SIGNUP_CONFIRMATION, message);
+			} else {
+				String message = "Activity is not full. Another error occured";
+				errorMessage(clientHandler, Constants.SIGNUP_ERROR, message);
+			}
+			
+			
+	}
 
-	public void confirmMessage(ClientHandler clientHandler, String message, String confirmation_type){
+	public void confirmMessage(ClientHandler clientHandler, String confirmType, String message){
 		JSONObject jsonSendObject = new JSONObject();
 
-		jsonSendObject.put(Constants.TYPE, Constants.CONFIRMATION);
+		jsonSendObject.put(Constants.TYPE, confirmType);
 		jsonSendObject.put(Constants.MESSAGE, message);
-		jsonSendObject.put(Constants.CONFIRMATION_TYPE, confirmation_type);
 
 		clientHandler.send(jsonSendObject.toString());
 	}
 
-	public void errorMessage(ClientHandler clientHandler, String message, String error_type){
+	public void errorMessage(ClientHandler clientHandler, String errorType, String message){
 		JSONObject jsonSendObject = new JSONObject();
 		
-		jsonSendObject.put(Constants.TYPE, Constants.ERROR);
+		jsonSendObject.put(Constants.TYPE, errorType);
 		jsonSendObject.put(Constants.MESSAGE, message);
-		jsonSendObject.put(Constants.ERROR_TYPE, error_type);
 
 		clientHandler.send(jsonSendObject.toString());
 	}
