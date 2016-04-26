@@ -59,10 +59,14 @@ public final class Constants {
 	public static final String NEW_ACTIVITY_ERROR = "50";
 	public static final String NEW_USER_CONFIRMATION = "51";
 	public static final String NEW_USER_ERROR = "52";
-	public static final String GET_CATEGORIES_WITH_ACTIVITIES =  "53";
+	public static final String GET_CATEGORIES_WITH_ACTIVITIES = "53";
 	public static final String GET_CATEGORIES_WITH_OWNED_ACTIVITIES = "54";
 	public static final String GET_HEADLINES_FOR_CATEGORY = "55";
 	public static final String GET_HEADLINES_FOR_CATEGORY_FOR_OWN_ACTIVITIES = "56";
+	public static final String PUBLISH_ACTIVITY_TO_SPECIFIC_USERS = "57";
+	public static final String CHECK_IF_USER_EXISTS = "58";
+	public static final String USER_EXISTS = "59";
+	public static final String INVALID_USERNAME = "60";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
