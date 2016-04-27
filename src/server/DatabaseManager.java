@@ -275,7 +275,22 @@ public class DatabaseManager {
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement("UPDATE activities SET "
-					+ "datePublished = NOW() WHERE id = " + activityID);
+					+ "datePublished = NOW(), public = 1 WHERE id = " + activityID);
+			statement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean publishActivityToIndividualUser(long activityId, String userName) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("INSERT INTO visibility (activityId, "
+					+ "userName, dateAdded, timeAdded) VALUES(?, ?, NOW(), NOW() )");
+			statement.setLong(1, activityId);
+			statement.setString(2, userName);
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -296,6 +311,19 @@ public class DatabaseManager {
 					" signup(activityID, username, dateAdded, timeAdded) VALUES (?, ?, NOW(), NOW())");
 			statement.setLong(1, activityID);
 			statement.setString(2, userName);
+			statement.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean unregisterFromActivity(long activityId, String userName) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("DELETE FROM signup WHERE activityID = "
+					+ "'"+activityId+"' AND username = '"+userName+"'");
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -485,10 +513,13 @@ public class DatabaseManager {
 		//db.signUpForActivity("Liza", 4);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		//db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.addNewActivity("TEST 27/4 2016", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
+		//db.unregisterFromActivity(4, "Liza");
+		db.publishActivity(32);
+		//db.publishActivityToIndividualUser(1, "Liza");
 	}
 }
