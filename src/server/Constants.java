@@ -19,7 +19,7 @@ public final class Constants {
 	public static final String MESSAGE = "10";
 	public static final String CONFIRMATION_TYPE = "11";	//TODO remove?
 	public static final String ERROR = "12";
-	public static final String ERROR_TYPE = "13";
+	public static final String ERROR_TYPE = "13";			//TODO remove?
 	public static final String NEWACTIVITY = "14";
 	public static final String NAME = "15";
 	public static final String PLACE = "16";

@@ -95,7 +95,7 @@ public class DatabaseManager {
 		return mainObject.toString();
 	}
 	
-	//TODO remove
+	//TODO remove?
 	private String getLocationName(long id) {
 		Statement select;
 		String name = "";
@@ -284,6 +284,7 @@ public class DatabaseManager {
 		return false;
 	}
 
+	//TODO ???
 	public String getUsers() {
 		return null;
 	}
@@ -344,6 +345,18 @@ public class DatabaseManager {
 			e1.printStackTrace();
 		}
 		return mainObj.toString();
+	}
+	
+	public String getCategoriesWithActivities(String userName) {
+		Statement select;
+		ResultSet result;
+		try {
+			select = connection.createStatement();
+			//result = select.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -469,7 +482,7 @@ public class DatabaseManager {
 		DatabaseManager db = new DatabaseManager(null);
 		//db.getActivities("sdg", "kjsdf", 5);
 		//db.registerNewUser("GF", "Hemligt", "email.com");
-		db.signUpForActivity("Liza", 4);
+		//db.signUpForActivity("Liza", 4);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
 		//db.addNewActivity("GFGF", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
