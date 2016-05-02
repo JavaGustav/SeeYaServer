@@ -95,9 +95,12 @@ public class Controller {
 				checkCategoriesVersion(clientHandler, version);
 			} else if(type.equals(Constants.SIGNUP)) {
 				signUpForActivity(clientHandler, jsonObject);
-				
-			} else if(type.equals(Constants.UNREGISTER)) {
-				
+			} else if(type.equals(Constants.UNREGISTER_FROM_ACTIVITY)) {
+				unregisterFromActivity(clientHandler, jsonObject);
+			} else if(type.equals(Constants.CHECK_IF_USER_EXISTS)){
+				checkIfUserExists(clientHandler, jsonObject);
+			} else if(type.equals(Constants.GET_CATEGORIES_WITH_ACTIVITIES)){
+				getCategoriesWithActivities(clientHandler, jsonObject);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -257,7 +260,7 @@ public class Controller {
 	 * @param clientHandler
 	 * @param jsonObject
 	 */
-	public void publishActivity(ClientHandler clientHandler, JSONObject jsonObject ){
+	private void publishActivity(ClientHandler clientHandler, JSONObject jsonObject ){
 		System.out.println("publishActivity, 1");
 		long activityID = (long) jsonObject.get(Constants.ID);
 		System.out.println("publishActivity 1");
@@ -283,7 +286,7 @@ public class Controller {
 	 * @param clientHandler. Klienthanteraren varifrån anropet kom och dit svaret ska skickas.
 	 * @param jsonObject. JSON-objektet med begäran om att anmäla till aktivitet.
 	 */
-	public void signUpForActivity(ClientHandler clientHandler, JSONObject jsonObject){
+	private void signUpForActivity(ClientHandler clientHandler, JSONObject jsonObject){
 			long maxNbr = databaseManager.getMaxNbrOfParticipants((long) jsonObject.get(Constants.ID));
 			long signedUp = databaseManager.getNumberOfSignedUp((long) jsonObject.get(Constants.ID));
 			if(maxNbr == signedUp) { // Aktiviteten är fulltecknad.
@@ -299,8 +302,54 @@ public class Controller {
 			
 			
 	}
+	
+	/**
+	 * I a user has registered for an activity, this method do the reverse i.e do an unregister from the
+	 * choosen activity.
+	 * @param clientHandler. The client handler taking care of the client.
+	 * @param jsonObject. The JSON object containing the command to unregister from activity.
+	 */
+	private void unregisterFromActivity(ClientHandler clientHandler, JSONObject jsonObject){
+		if(databaseManager.unregisterFromActivity((long)jsonObject.get(Constants.ID), (String)jsonObject.get(Constants.USERNAME))){
+			String message = "User: " + Constants.USERNAME + " successfully unregistered from " + Constants.ID;
+			confirmMessage(clientHandler, Constants.UNREGISTER_FROM_ACTIVITY_CONFIRMATION, message);
+		} else {
+			String message = "User: " + Constants.USERNAME + " could not be unregistered from " + Constants.ID;
+			errorMessage(clientHandler, Constants.UNREGISTER_FROM_ACTIVITY_ERROR, message);
+		}
+	}
+	
+	private void checkIfUserExists(ClientHandler clientHandler, JSONObject jsonObject){
+		try {
+			if(databaseManager.checkIfUserExists((String)jsonObject.get(Constants.USERNAME))){
+				String message = Constants.USERNAME;
+				confirmMessage(clientHandler, Constants.USER_EXISTS, message);
+			} else {
+				String message = Constants.USERNAME;
+				errorMessage(clientHandler, Constants.INVALID_USERNAME, message);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void getCategoriesWithActivities(ClientHandler clientHandler, JSONObject jsonObject){
+		String userName = (String)jsonObject.get(Constants.USERNAME);
+		String data = databaseManager.getCategoriesWithActivities(userName);
+		if(data != null){
+			// Kolla med Gustav hur den resulterande strängen ser ut.
+			dataMessage(clientHandler, Constants.GET_CATEGORIES_WITH_ACTIVITIES , data);
+		}
+	}
 
-	public void confirmMessage(ClientHandler clientHandler, String confirmType, String message){
+	/**
+	 * Send a confirmation message back to client.
+	 * @param clientHandler. The client handler servicing the requesting client.
+	 * @param confirmType. The type of confirm message.
+	 * @param message. A complementary message.
+	 */
+	private void confirmMessage(ClientHandler clientHandler, String confirmType, String message){
 		JSONObject jsonSendObject = new JSONObject();
 
 		jsonSendObject.put(Constants.TYPE, confirmType);
@@ -309,13 +358,23 @@ public class Controller {
 		clientHandler.send(jsonSendObject.toString());
 	}
 
-	public void errorMessage(ClientHandler clientHandler, String errorType, String message){
+	/**
+	 * Send an error message back to client.
+	 * @param clientHandler. The client handler servicing the requesting client.
+	 * @param errorType. The type of error.
+	 * @param message. A complementary message.
+	 */
+	private void errorMessage(ClientHandler clientHandler, String errorType, String message){
 		JSONObject jsonSendObject = new JSONObject();
 		
 		jsonSendObject.put(Constants.TYPE, errorType);
 		jsonSendObject.put(Constants.MESSAGE, message);
 
 		clientHandler.send(jsonSendObject.toString());
+	}
+	
+	private void dataMessage(ClientHandler clientHandler, String dataType , String data){
+		
 	}
 
 	public void log(String logType, String message) {
