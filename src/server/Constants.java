@@ -50,7 +50,7 @@ public final class Constants {
 	public static final String CATEGORIES_CONFIRMATION = "41";
 	public static final String CATEGORIES_VERSION_NUMBER = "42";
 	public static final String SIGNUP = "43";
-	public static final String UNREGISTER = "44";
+	public static final String UNREGISTER_FROM_ACTIVITY = "44";
 	public static final String SIGNUP_CONFIRMATION = "45";
 	public static final String SIGNUP_ERROR = "46";
 	public static final String PUBLISH_ACTIVITY_CONFIRMATION = "47";
@@ -67,6 +67,8 @@ public final class Constants {
 	public static final String CHECK_IF_USER_EXISTS = "58";
 	public static final String USER_EXISTS = "59";
 	public static final String INVALID_USERNAME = "60";
+	public static final String UNREGISTER_FROM_ACTIVITY_CONFIRMATION = "61";
+	public static final String UNREGISTER_FROM_ACTIVITY_ERROR = "62";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
