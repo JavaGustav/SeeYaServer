@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -270,6 +271,11 @@ public class DatabaseManager {
 		}
 		return false;
 	}
+	
+	//TODO ?
+	public boolean updateActivity() {
+		return false;
+	}
 
 	public boolean publishActivity(long activityID) {
 		PreparedStatement statement;
@@ -283,7 +289,7 @@ public class DatabaseManager {
 		}
 		return false;
 	}
-	
+
 	public boolean publishActivityToIndividualUser(long activityId, String userName) {
 		PreparedStatement statement;
 		try {
@@ -375,12 +381,28 @@ public class DatabaseManager {
 		return mainObj.toString();
 	}
 	
+	public String getCategoriesWithPublicActivities() {
+		return null;
+	}
+	
+	public long getMaincategoryId(long subCategoryId) {
+		long id = -1;
+		
+		return id;
+	}
+	
 	public String getCategoriesWithActivities(String userName) {
+		String query = "SELECT subCategory FROM activities "
+				+ "WHERE id = ANY (SELECT * FROM (SELECT activityId "
+				+ "FROM visibility WHERE userName = '"+userName+"')as t UNION "
+				+ "(SELECT id FROM activities WHERE public = 1 AND "
+				+ "datePublished IS NOT NULL)) GROUP BY subCategory";
 		Statement select;
 		ResultSet result;
 		try {
 			select = connection.createStatement();
-			//result = select.executeQuery();
+			result = select.executeQuery(query);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -519,7 +541,8 @@ public class DatabaseManager {
 		//db.getOwnedActivitiesHeadlines("dfgh");
 		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
 		//db.unregisterFromActivity(4, "Liza");
-		db.publishActivity(32);
+		//db.publishActivity(32);
 		//db.publishActivityToIndividualUser(1, "Liza");
+		db.getCategoriesWithPublicActivities();
 	}
 }
