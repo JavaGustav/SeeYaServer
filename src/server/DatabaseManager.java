@@ -140,12 +140,11 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return maxNbr;
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivityHeadLines(long categoryId) {
+	public String getActivityHeadLines(long categoryId, String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
 		JSONArray jArray = new JSONArray();
 		Statement select;
@@ -394,7 +393,7 @@ public class DatabaseManager {
 	public String getCategoriesWithActivities(String userName) {
 		String query = "SELECT subCategory FROM activities "
 				+ "WHERE id = ANY (SELECT * FROM (SELECT activityId "
-				+ "FROM visibility WHERE userName = '"+userName+"')as t UNION "
+				+ "FROM visibility WHERE userName = '"+userName+"')AS t UNION "
 				+ "(SELECT id FROM activities WHERE public = 1 AND "
 				+ "datePublished IS NOT NULL)) GROUP BY subCategory";
 		Statement select;
