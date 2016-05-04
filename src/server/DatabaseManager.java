@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -140,12 +139,11 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return maxNbr;
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivityHeadLines(long categoryId) {
+	public String getActivityHeadLines(long categoryId, String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
 		JSONArray jArray = new JSONArray();
 		Statement select;
@@ -167,7 +165,7 @@ public class DatabaseManager {
 		System.out.println(mainObject.toString());
 		return mainObject.toString();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String getOwnedActivitiesHeadlines(String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
@@ -378,35 +376,78 @@ public class DatabaseManager {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+		System.out.println(mainObj.toString());
 		return mainObj.toString();
 	}
 	
 	public String getCategoriesWithPublicActivities() {
 		return null;
 	}
-	
+
 	public long getMaincategoryId(long subCategoryId) {
 		long id = -1;
 		
 		return id;
 	}
 	
-	public String getCategoriesWithActivities(String userName) {
-		String query = "SELECT subCategory FROM activities "
-				+ "WHERE id = ANY (SELECT * FROM (SELECT activityId "
-				+ "FROM visibility WHERE userName = '"+userName+"')as t UNION "
-				+ "(SELECT id FROM activities WHERE public = 1 AND "
-				+ "datePublished IS NOT NULL)) GROUP BY subCategory";
+	public void get() {
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONArray getMainCategoriesWithActivities(String userName) {
+		String query = "SELECT id, title FROM maincategories WHERE id = "
+				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
+				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
+				+ "userName = '"+userName+"')AS t UNION (SELECT id FROM activities "
+				+ "WHERE public = 1 AND datePublished IS NOT NULL))))";
 		Statement select;
 		ResultSet result;
+		JSONArray array = new JSONArray();
 		try {
 			select = connection.createStatement();
 			result = select.executeQuery(query);
-			
+			JSONObject temp = new JSONObject();
+			while(result.next()) {
+				temp = new JSONObject();
+				temp.put(Constants.ID, result.getInt(1));
+				temp.put(Constants.NAME, result.getString(2));
+				array.add(temp);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		System.out.println(array.toString());
+		return array;
+	}
+
+	@SuppressWarnings("unchecked")
+	public JSONArray getSubCategoriesWithActivities(String userName, long mainCatId) {
+		String query = "SELECT id, title FROM subcategories WHERE id = "
+				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
+				+ "userName = '"+userName+"')AS t "
+				+ "UNION (SELECT id FROM activities WHERE public = 1 "
+				+ "AND datePublished IS NOT NULL))) AND parentId = " + mainCatId;
+		Statement select;
+		ResultSet result;
+		JSONArray array = new JSONArray();
+		try {
+			select = connection.createStatement();
+			result = select.executeQuery(query);
+			JSONObject temp;
+			while(result.next()) {
+				temp = new JSONObject();
+				temp.put(Constants.ID, result.getInt(1));
+				temp.put(Constants.NAME, result.getString(2));
+				array.add(temp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(array.toString());
+		return array;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -531,11 +572,11 @@ public class DatabaseManager {
 	public static void main(String args[]) {
 		DatabaseManager db = new DatabaseManager(null);
 		//db.getActivities("sdg", "kjsdf", 5);
-		//db.registerNewUser("GF", "Hemligt", "email.com");
+		//db.registerNewUser("GFGFGF", "Hemligt", "email.com");
 		//db.signUpForActivity("Liza", 4);
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
-		//db.addNewActivity("TEST 27/4 2016", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
+		//db.addNewActivity("TEST 4/5 2016", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
 		//db.getActivityHeadLines(1);
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
@@ -543,6 +584,8 @@ public class DatabaseManager {
 		//db.unregisterFromActivity(4, "Liza");
 		//db.publishActivity(32);
 		//db.publishActivityToIndividualUser(1, "Liza");
-		db.getCategoriesWithPublicActivities();
+		//db.getCategoriesWithPublicActivities();
+		//db.getMainCategoriesWithActivities("test3");
+		//db.getSubCategoriesWithActivities("test3", 1);
 	}
 }
