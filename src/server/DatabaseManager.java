@@ -142,6 +142,11 @@ public class DatabaseManager {
 		return maxNbr;
 	}
 
+	private JSONArray getHeadlines(String userName, long id) {
+		
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public String getActivityHeadLines(long categoryId, String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
@@ -322,7 +327,7 @@ public class DatabaseManager {
 		}
 		return false;
 	}
-	
+
 	public boolean unregisterFromActivity(long activityId, String userName) {
 		PreparedStatement statement;
 		try {
@@ -389,19 +394,9 @@ public class DatabaseManager {
 		
 		return id;
 	}
-	
-	public void get() {
-		
-	}
-	
+
 	@SuppressWarnings("unchecked")
-	public JSONArray getMainCategoriesWithActivities(String userName) {
-		String query = "SELECT id, title FROM maincategories WHERE id = "
-				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
-				+ "ANY (SELECT subCategory FROM activities WHERE id = "
-				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
-				+ "userName = '"+userName+"')AS t UNION (SELECT id FROM activities "
-				+ "WHERE public = 1 AND datePublished IS NOT NULL))))";
+	private JSONArray getCategories(String query) {
 		Statement select;
 		ResultSet result;
 		JSONArray array = new JSONArray();
@@ -418,11 +413,20 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(array.toString());
+		System.out.println("FROM GETCATEGORIES: " + array.toString());
 		return array;
 	}
 
-	@SuppressWarnings("unchecked")
+	public JSONArray getMainCategoriesWithActivities(String userName) {
+		String query = "SELECT id, title FROM maincategories WHERE id = "
+				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
+				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
+				+ "userName = '"+userName+"')AS t UNION (SELECT id FROM activities "
+				+ "WHERE public = 1 AND datePublished IS NOT NULL))))";
+		return getCategories(query);
+	}
+
 	public JSONArray getSubCategoriesWithActivities(String userName, long mainCatId) {
 		String query = "SELECT id, title FROM subcategories WHERE id = "
 				+ "ANY (SELECT subCategory FROM activities WHERE id = "
@@ -430,24 +434,7 @@ public class DatabaseManager {
 				+ "userName = '"+userName+"')AS t "
 				+ "UNION (SELECT id FROM activities WHERE public = 1 "
 				+ "AND datePublished IS NOT NULL))) AND parentId = " + mainCatId;
-		Statement select;
-		ResultSet result;
-		JSONArray array = new JSONArray();
-		try {
-			select = connection.createStatement();
-			result = select.executeQuery(query);
-			JSONObject temp;
-			while(result.next()) {
-				temp = new JSONObject();
-				temp.put(Constants.ID, result.getInt(1));
-				temp.put(Constants.NAME, result.getString(2));
-				array.add(temp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println(array.toString());
-		return array;
+		return getCategories(query);
 	}
 
 	@SuppressWarnings("unchecked")
