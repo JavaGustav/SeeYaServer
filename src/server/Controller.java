@@ -99,8 +99,8 @@ public class Controller {
 				unregisterFromActivity(clientHandler, jsonObject);
 			} else if(type.equals(Constants.CHECK_IF_USER_EXISTS)){
 				checkIfUserExists(clientHandler, jsonObject);
-			} else if(type.equals(Constants.GET_CATEGORIES_WITH_ACTIVITIES)){
-				getCategoriesWithActivities(clientHandler, jsonObject);
+			} else if(type.equals(Constants.GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER)){
+				getMaincategorySubcategoryHeadlinesForUser(clientHandler, jsonObject);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -334,12 +334,12 @@ public class Controller {
 		}
 	}
 	
-	private void getCategoriesWithActivities(ClientHandler clientHandler, JSONObject jsonObject){
+	private void getMaincategorySubcategoryHeadlinesForUser(ClientHandler clientHandler, JSONObject jsonObject){
 		String userName = (String)jsonObject.get(Constants.USERNAME);
 		String data = databaseManager.getCategoriesWithActivities(userName);
 		if(data != null){
 			// Kolla med Gustav hur den resulterande strängen ser ut.
-			dataMessage(clientHandler, Constants.GET_CATEGORIES_WITH_ACTIVITIES , data);
+			dataMessage(clientHandler, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER , data);
 		}
 	}
 
