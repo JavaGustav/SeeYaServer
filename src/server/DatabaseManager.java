@@ -552,7 +552,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject startJson(String type) {
+	private JSONObject startJson(String type) {
 		JSONObject obj = new JSONObject();
 		obj.put(Constants.TYPE, type);
 		return obj;
@@ -566,7 +566,7 @@ public class DatabaseManager {
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
 		//db.addNewActivity("TEST 4/5 2016", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
-		db.getActivityHeadLines(202, "test3");
+		//db.getActivityHeadLines(202, "test3");
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
@@ -574,8 +574,11 @@ public class DatabaseManager {
 		//db.publishActivity(32);
 		//db.publishActivityToIndividualUser(1, "Liza");
 		//db.getCategoriesWithPublicActivities();
-		//db.getMainCategoriesWithActivities("test3");
-		//db.getSubCategoriesWithActivities("test3", 1);
-		//db.getMainCategoriesWithOwnActivities("test2");
+		//db.getMainCategoriesWithActivities("Gustav");
+		//db.getSubCategoriesWithActivities("Gustav", 2);
+		//db.getMainCategoriesWithOwnActivities("Gustav");
+		//db.getSubCategoriesWithOwnActivities("Gustav", 2);
+		//db.getActivityHeadLines(201, "Gustav");
+		//db.getOwnActivitiesHeadlines(201, "Gustav");
 	}
 }
