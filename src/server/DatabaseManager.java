@@ -142,57 +142,43 @@ public class DatabaseManager {
 		return maxNbr;
 	}
 
-	private JSONArray getHeadlines(String userName, long id) {
-		
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
-	public String getActivityHeadLines(long categoryId, String userName) {
-		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
-		JSONArray jArray = new JSONArray();
+	private JSONArray getHeadlines(String query) {
+		JSONArray array = new JSONArray();
+		JSONObject temp;
 		Statement select;
 		try {
 			select = connection.createStatement();
-			ResultSet result = select.executeQuery(
-					GET_ACTIVITIES_HEADLINES_QUERY + categoryId);
+			ResultSet result = select.executeQuery(query);
 			while(result.next()) {
-				JSONObject temp = new JSONObject();
+				temp = new JSONObject();
 				temp.put(Constants.ID, result.getInt(1));
 				temp.put(Constants.HEADLINE, result.getString(2));
 				temp.put(Constants.DATE, result.getString(3));
-				jArray.add(temp);
+				array.add(temp);
 			}
-			mainObject.put(Constants.ARRAY_HEADLINE, jArray);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(mainObject.toString());
-		return mainObject.toString();
+		System.out.println("FROM GETHEADLINES: " + array.toString());
+		return array;
 	}
 
-	@SuppressWarnings("unchecked")
-	public String getOwnedActivitiesHeadlines(String userName) {
-		JSONObject mainObject = startJson(Constants.ACTIVITY_HEADLINES);
-		JSONArray jArray = new JSONArray();
-		Statement select;
-		try {
-			select = connection.createStatement();
-			ResultSet result = select.executeQuery(GET_OWNED_ACTIVITIES_HEADLINES + 
-					"'"+userName+"'");
-			while(result.next()) {
-				JSONObject temp = new JSONObject();
-				temp.put(Constants.ID, result.getInt(1));
-				temp.put(Constants.HEADLINE, result.getString(2));
-				temp.put(Constants.DATE, result.getString(3));
-				jArray.add(temp);
-			}
-			mainObject.put(Constants.ARRAY_HEADLINE, jArray);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println(mainObject.toString());
-		return mainObject.toString();
+	public JSONArray getActivityHeadLines(long categoryId, String userName) {
+		String query = "SELECT id, headline, date FROM activities "
+				+ "WHERE subcategory = "+categoryId+" AND id = "
+				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility "
+				+ "WHERE userName = '"+userName+"') AS t "
+				+ "UNION (SELECT id FROM activities "
+				+ "WHERE public = 1 AND datePublished IS NOT NULL))";
+		return getHeadlines(query);
+	}
+
+	public JSONArray getOwnActivitiesHeadlines(long categoryId, String userName) {
+		String query = "SELECT id, headline, date FROM activities "
+				+ "WHERE owner = '"+userName+"' "
+				+ "AND subcategory = " + categoryId;
+		return getHeadlines(query);
 	}
 
 	public String getPassWord(String userName) {
@@ -256,7 +242,7 @@ public class DatabaseManager {
 		}
 		try {
 			PreparedStatement statement = connection.prepareStatement(
-					ADD_NEW_ACTIVITY_QUERY);;
+					ADD_NEW_ACTIVITY_QUERY);
 			statement.setLong(1, subCategory);
 			statement.setLong(2, maxNbr);
 			statement.setLong(3, minNbr);
@@ -426,6 +412,15 @@ public class DatabaseManager {
 				+ "WHERE public = 1 AND datePublished IS NOT NULL))))";
 		return getCategories(query);
 	}
+	
+	public JSONArray getMainCategoriesWithOwnActivities(String userName) {
+		String query = "SELECT id, title FROM maincategories WHERE id = "
+				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
+				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT id FROM activities "
+				+ "WHERE owner = '"+userName+"')))";
+		return getCategories(query);
+	}
 
 	public JSONArray getSubCategoriesWithActivities(String userName, long mainCatId) {
 		String query = "SELECT id, title FROM subcategories WHERE id = "
@@ -434,6 +429,13 @@ public class DatabaseManager {
 				+ "userName = '"+userName+"')AS t "
 				+ "UNION (SELECT id FROM activities WHERE public = 1 "
 				+ "AND datePublished IS NOT NULL))) AND parentId = " + mainCatId;
+		return getCategories(query);
+	}
+	
+	public JSONArray getSubCategoriesWithOwnActivities(String userName, long mainCatId) {
+		String query = "SELECT id, title FROM subcategories WHERE id = "
+				+ "ANY (SELECT subCategory FROM activities WHERE owner = '"+userName+"') "
+				+ "AND parentId = " + mainCatId;
 		return getCategories(query);
 	}
 
@@ -564,7 +566,7 @@ public class DatabaseManager {
 		//db.writeLog(2, "TEST FROM SERVERAPPLICATION");
 		//db.getCategories();
 		//db.addNewActivity("TEST 4/5 2016", 500, 5, 3, 6, "2016-02-12", "10:00:00", "mjhb", "kjh");
-		//db.getActivityHeadLines(1);
+		db.getActivityHeadLines(202, "test3");
 		//db.getActivitiy(19);
 		//db.getOwnedActivitiesHeadlines("dfgh");
 		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
@@ -574,5 +576,6 @@ public class DatabaseManager {
 		//db.getCategoriesWithPublicActivities();
 		//db.getMainCategoriesWithActivities("test3");
 		//db.getSubCategoriesWithActivities("test3", 1);
+		//db.getMainCategoriesWithOwnActivities("test2");
 	}
 }
