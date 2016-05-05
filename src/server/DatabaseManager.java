@@ -164,9 +164,9 @@ public class DatabaseManager {
 		return array;
 	}
 
-	public JSONArray getActivityHeadLines(long categoryId, String userName) {
+	public JSONArray getActivityHeadLines(String userName, long subCatId) {
 		String query = "SELECT id, headline, date FROM activities "
-				+ "WHERE subcategory = "+categoryId+" AND id = "
+				+ "WHERE subcategory = "+subCatId+" AND id = "
 				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility "
 				+ "WHERE userName = '"+userName+"') AS t "
 				+ "UNION (SELECT id FROM activities "
@@ -174,10 +174,10 @@ public class DatabaseManager {
 		return getHeadlines(query);
 	}
 
-	public JSONArray getOwnActivitiesHeadlines(long categoryId, String userName) {
+	public JSONArray getOwnActivityHeadlines(String userName, long subCatId) {
 		String query = "SELECT id, headline, date FROM activities "
 				+ "WHERE owner = '"+userName+"' "
-				+ "AND subcategory = " + categoryId;
+				+ "AND subcategory = " + subCatId;
 		return getHeadlines(query);
 	}
 
