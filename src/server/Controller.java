@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.swing.SwingUtilities;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -82,7 +83,7 @@ public class Controller {
 			} else if(type.equals(Constants.ACTIVITY_CATEGORIES)) {
 				sendCategories(clientHandler);
 			} else if(type.equals(Constants.MY_ACTIVITIES)) {
-				sendOwnedActivities(clientHandler, jsonObject);
+//				sendOwnedActivities(clientHandler, jsonObject);
 			} else if(type.equals(Constants.LOCATIONS)) {
 				sendLocations(clientHandler);
 			} else if(type.equals(Constants.ACTIVITIY)) {
@@ -101,6 +102,10 @@ public class Controller {
 				checkIfUserExists(clientHandler, jsonObject);
 			} else if(type.equals(Constants.GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER)){
 				getMaincategorySubcategoryHeadlinesForUser(clientHandler, jsonObject);
+			} else if(type.equals(Constants.GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES)){
+				getMaincategorySubcategoryHeadlinesForUserOwndActivities(clientHandler,jsonObject);
+			} else if(type.equals(Constants.PUBLISH_ACTIVITY_TO_SPECIFIC_USERS)){
+				publishActivityToSpecificUsers(clientHandler, jsonObject);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -138,12 +143,12 @@ public class Controller {
 		clientHandler.send(activity);
 	}
 	
-	private void sendOwnedActivities(ClientHandler clientHandler, JSONObject json) {
-		String userName;
-		userName = (String)json.get(Constants.USERNAME);
-		String headLines = databaseManager.getOwnedActivitiesHeadlines(userName);
-		clientHandler.send(headLines);
-	}
+//	private void sendOwnedActivities(ClientHandler clientHandler, JSONObject json) {
+//		String userName;
+//		userName = (String)json.get(Constants.USERNAME);
+//		String headLines = databaseManager.getOwnedActivitiesHeadlines(userName);
+//		clientHandler.send(headLines);
+//	}
 	
 	private void sendCategories(ClientHandler clientHandler) {
 		String categories = databaseManager.getCategories();
@@ -304,7 +309,7 @@ public class Controller {
 	}
 	
 	/**
-	 * I a user has registered for an activity, this method do the reverse i.e do an unregister from the
+	 * If a user has registered for an activity, this method do the reverse i.e do an unregister from the
 	 * choosen activity.
 	 * @param clientHandler. The client handler taking care of the client.
 	 * @param jsonObject. The JSON object containing the command to unregister from activity.
@@ -334,15 +339,134 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * This method sends a structured JSON-string with the main category, subcategory and headlines for 
+	 * a specific user. I sends only this for the categories where there are activities in.
+	 * @param clientHandler
+	 * @param jsonObject
+	 */
 	private void getMaincategorySubcategoryHeadlinesForUser(ClientHandler clientHandler, JSONObject jsonObject){
 		String userName = (String)jsonObject.get(Constants.USERNAME);
-		String data = databaseManager.getCategoriesWithActivities(userName);
-		if(data != null){
-			// Kolla med Gustav hur den resulterande strängen ser ut.
-			dataMessage(clientHandler, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER , data);
+		
+		JSONObject mainObject = new JSONObject();
+		JSONArray mainCategoriesArray; 
+		JSONObject mainCategoryObject;
+		int mainCategoryID;
+		JSONArray subCategoriesArray;
+		JSONObject subCategoryObject;
+		int subCategoryID;
+		JSONArray activityHeadlinesArray;
+		JSONObject activityHeadlineObject;
+		
+		mainObject.put(Constants.TYPE, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER);
+		mainObject.put(Constants.USERNAME, userName);
+		// Hämtar en JSONArray med huvudkategorierna i
+		mainCategoriesArray = databaseManager.getMainCategoriesWithActivities(userName);
+		if(mainCategoriesArray != null){
+			mainObject.put(Constants.ARRAY_MAINCATEGORY, mainCategoriesArray);
+			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
+			for(int i=0; i<mainCategoriesArray.size(); i++){
+				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
+				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
+
+				subCategoriesArray = databaseManager.getSubCategoriesWithActivities(userName, mainCategoryID);
+				if(subCategoriesArray != null){
+					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
+					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
+					for(int j=0; j<subCategoriesArray.size(); j++){
+						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
+						subCategoryID = (int) subCategoryObject.get(Constants.ID);
+						mainCategoryObject.put(Constants.ARRAY_SUBCATEGORY, subCategoriesArray);
+						
+						activityHeadlinesArray = databaseManager.getActivityHeadLines(userName, subCategoryID);
+						subCategoryObject.put(Constants.ARRAY_HEADLINE, activityHeadlinesArray);
+					}	
+				}
+			}
+			dataMessage(clientHandler, mainObject);
 		}
 	}
 
+	/**
+	 * This method sends a structured JSON-string with the main category, subcategory and headlines for 
+	 * a specific user. I sends only this for the categories where there are activities in.
+	 * @param clientHandler
+	 * @param jsonObject
+	 */
+	private void getMaincategorySubcategoryHeadlinesForUserOwndActivities(ClientHandler clientHandler, JSONObject jsonObject){
+		String userName = (String)jsonObject.get(Constants.USERNAME);
+		
+		JSONObject mainObject = new JSONObject();
+		JSONArray mainCategoriesArray; 
+		JSONObject mainCategoryObject;
+		int mainCategoryID;
+		JSONArray subCategoriesArray;
+		JSONObject subCategoryObject;
+		int subCategoryID;
+		JSONArray activityHeadlinesArray;
+		JSONObject activityHeadlineObject;
+		
+		mainObject.put(Constants.TYPE, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES);
+		mainObject.put(Constants.USERNAME, userName);
+		// Hämtar en JSONArray med huvudkategorierna i
+		mainCategoriesArray = databaseManager.getMainCategoriesWithOwnActivities(userName);
+		if(mainCategoriesArray != null){
+			mainObject.put(Constants.ARRAY_MAINCATEGORY, mainCategoriesArray);
+			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
+			for(int i=0; i<mainCategoriesArray.size(); i++){
+				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
+				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
+
+				subCategoriesArray = databaseManager.getSubCategoriesWithOwnActivities(userName, mainCategoryID);
+				if(subCategoriesArray != null){
+					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
+					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
+					for(int j=0; j<subCategoriesArray.size(); j++){
+						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
+						subCategoryID = (int) subCategoryObject.get(Constants.ID);
+						mainCategoryObject.put(Constants.ARRAY_SUBCATEGORY, subCategoriesArray);
+						
+						activityHeadlinesArray = databaseManager.getOwnActivityHeadlines(userName, subCategoryID);
+						subCategoryObject.put(Constants.ARRAY_HEADLINE, activityHeadlinesArray);
+					}	
+				}
+			}
+			dataMessage(clientHandler, mainObject);
+		}
+	}
+	
+	/**
+	 * Publish an activity to the specified users. Notifies app with a PUBLISH_ACTIVITY_CONFIRMATION message
+	 * together with an array with the users if the activity was published to all specified users. 
+	 * Otherwise an PUBLISH_ACTIVITY_ERROR message is sent back to app with an array of the users for who 
+	 * the publish did not succeed.
+	 * @param clientHandler
+	 * @param jsonObject
+	 */
+	private void publishActivityToSpecificUsers(ClientHandler clientHandler, JSONObject jsonObject){
+		JSONArray users = (JSONArray) jsonObject.get(Constants.ARRAY_USERNAME);
+		int activityID = (int) jsonObject.get(Constants.ID);
+		JSONArray published = new JSONArray();
+		JSONArray notPublished = new JSONArray();
+		for(int i=0; i<users.size(); i++){
+			JSONObject userObject = (JSONObject) users.get(i);
+			String userName = (String) userObject.get(Constants.USERNAME);
+			
+			// If the publish succeed, add to published array.
+			if(databaseManager.publishActivityToIndividualUser(activityID, userName)){
+				published.add(userObject);
+			} else {
+				notPublished.add(userObject);
+			}
+		}
+		
+		if(users.size() == published.size()){
+			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, published.toString());
+		} else {
+			errorMessage(clientHandler, Constants.PUBLISH_ACTIVITY_ERROR, notPublished.toString());
+		}
+	}
+	
 	/**
 	 * Send a confirmation message back to client.
 	 * @param clientHandler. The client handler servicing the requesting client.
@@ -373,8 +497,8 @@ public class Controller {
 		clientHandler.send(jsonSendObject.toString());
 	}
 	
-	private void dataMessage(ClientHandler clientHandler, String dataType , String data){
-		
+	private void dataMessage(ClientHandler clientHandler, JSONObject data){
+		clientHandler.send(data.toString());
 	}
 
 	public void log(String logType, String message) {
