@@ -352,10 +352,10 @@ public class Controller {
 		JSONObject mainObject = new JSONObject();
 		JSONArray mainCategoriesArray; 
 		JSONObject mainCategoryObject;
-		long mainCategoryID;
+		int mainCategoryID;
 		JSONArray subCategoriesArray;
 		JSONObject subCategoryObject;
-		long subCategoryID;
+		int subCategoryID;
 		JSONArray activityHeadlinesArray;
 		JSONObject activityHeadlineObject;
 		
@@ -368,18 +368,18 @@ public class Controller {
 			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
 			for(int i=0; i<mainCategoriesArray.size(); i++){
 				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
-				mainCategoryID = (long) mainCategoryObject.get(Constants.ID);
+				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
 
-				subCategoriesArray = databaseManager.getSubCategoriesWithActivities(userName, mainCategoryID);
+				subCategoriesArray = databaseManager.getSubCategoriesWithActivities(userName, (long)mainCategoryID);
 				if(subCategoriesArray != null){
 					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
 					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
-						subCategoryID = (long) subCategoryObject.get(Constants.ID);
+						subCategoryID = (int) subCategoryObject.get(Constants.ID);
 						mainCategoryObject.put(Constants.ARRAY_SUBCATEGORY, subCategoriesArray);
 						
-						activityHeadlinesArray = databaseManager.getActivityHeadLines(userName, subCategoryID);
+						activityHeadlinesArray = databaseManager.getActivityHeadLines(userName, (long)subCategoryID);
 						subCategoryObject.put(Constants.ARRAY_HEADLINE, activityHeadlinesArray);
 					}	
 				}
@@ -400,10 +400,10 @@ public class Controller {
 		JSONObject mainObject = new JSONObject();
 		JSONArray mainCategoriesArray; 
 		JSONObject mainCategoryObject;
-		long mainCategoryID;
+		int mainCategoryID;
 		JSONArray subCategoriesArray;
 		JSONObject subCategoryObject;
-		long subCategoryID;
+		int subCategoryID;
 		JSONArray activityHeadlinesArray;
 		JSONObject activityHeadlineObject;
 		
@@ -416,18 +416,18 @@ public class Controller {
 			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
 			for(int i=0; i<mainCategoriesArray.size(); i++){
 				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
-				mainCategoryID = (long) mainCategoryObject.get(Constants.ID);
+				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
 
-				subCategoriesArray = databaseManager.getSubCategoriesWithOwnActivities(userName, mainCategoryID);
+				subCategoriesArray = databaseManager.getSubCategoriesWithOwnActivities(userName, (long) mainCategoryID);
 				if(subCategoriesArray != null){
 					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
 					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
-						subCategoryID = (long) subCategoryObject.get(Constants.ID);
+						subCategoryID = (int) subCategoryObject.get(Constants.ID);
 						mainCategoryObject.put(Constants.ARRAY_SUBCATEGORY, subCategoriesArray);
 						
-						activityHeadlinesArray = databaseManager.getOwnActivityHeadlines(userName, subCategoryID);
+						activityHeadlinesArray = databaseManager.getOwnActivityHeadlines(userName, (long)subCategoryID);
 						subCategoryObject.put(Constants.ARRAY_HEADLINE, activityHeadlinesArray);
 					}	
 				}
