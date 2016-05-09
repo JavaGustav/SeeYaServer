@@ -325,12 +325,13 @@ public class Controller {
 	}
 	
 	private void checkIfUserExists(ClientHandler clientHandler, JSONObject jsonObject){
+		String userName = (String)jsonObject.get(Constants.USERNAME);
 		try {
-			if(databaseManager.checkIfUserExists((String)jsonObject.get(Constants.USERNAME))){
-				String message = Constants.USERNAME;
+			if(databaseManager.checkIfUserExists(userName)){
+				String message = userName;
 				confirmMessage(clientHandler, Constants.USER_EXISTS, message);
 			} else {
-				String message = Constants.USERNAME;
+				String message = userName;
 				errorMessage(clientHandler, Constants.INVALID_USERNAME, message);
 			}
 		} catch (SQLException e) {
