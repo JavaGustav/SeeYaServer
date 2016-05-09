@@ -68,7 +68,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getActivitiy(long id) {
+	public JSONObject getActivitiy(long id, String userName) {
 		JSONObject mainObject = startJson(Constants.ACTIVITIY);
 		Statement select;
 		try {
@@ -92,9 +92,25 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 		System.out.println(mainObject.toString());
-		return mainObject.toString();
+		return mainObject;
 	}
 	
+	public boolean isUserSignedup(long activityId, String userName) {
+		boolean status = false;
+		Statement select;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery("SELECT * FROM signup WHERE "
+					+ "activityId = " + activityId + " AND userName = '"+userName+"'");
+			if(result.next()) {
+				status = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
 	//TODO remove?
 	private String getLocationName(long id) {
 		Statement select;
@@ -287,11 +303,24 @@ public class DatabaseManager {
 			statement.setLong(1, activityId);
 			statement.setString(2, userName);
 			statement.executeUpdate();
+			setDatePublished(activityId);
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private void setDatePublished(long activityId) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("UPDATE activities SET "
+					+ "datePublished = NOW() WHERE id = " + activityId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 	//TODO ???
@@ -572,7 +601,7 @@ public class DatabaseManager {
 		//db.getVersion(Constants.ACTIVITY_CATEGORIES);
 		//db.unregisterFromActivity(4, "Liza");
 		//db.publishActivity(32);
-		//db.publishActivityToIndividualUser(1, "Liza");
+		//db.publishActivityToIndividualUser(30, "test3");
 		//db.getCategoriesWithPublicActivities();
 		//db.getMainCategoriesWithActivities("Gustav");
 		//db.getSubCategoriesWithActivities("Gustav", 2);
@@ -580,5 +609,6 @@ public class DatabaseManager {
 		//db.getSubCategoriesWithOwnActivities("Gustav", 2);
 		//db.getActivityHeadLines(201, "Gustav");
 		//db.getOwnActivityHeadlines(201, "Gustav");
+		db.isUserSignedup(23, "test6");
 	}
 }
