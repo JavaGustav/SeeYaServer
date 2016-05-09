@@ -66,7 +66,7 @@ public final class Constants {
 	// TYPE för appens begäran om att publisera en aktivitet till alla användare av systemet, publik
 	public static final String PUBLISH_ACTIVITY = "21";
 	
-	// Key för angivandet av något id, tex aktivitets id.
+	// Key för angivandet av något id, tex aktivitets-id.
 	public static final String ID = "22";
 	
 	// Key för angivandet av datum.
@@ -83,6 +83,8 @@ public final class Constants {
 	public static final String LOCATIONS = "27";
 	public static final String MAINCATEGORY = "28";
 	public static final String LOCATIONS_VERSION_NBR = "29";
+	
+	//
 	public static final String ARRAY_SUBCATEGORY = "30";
 	
 	// Key för serverns retur av huvudkategorier i form av en array. Ingår i svar på appens begäran om 
@@ -93,7 +95,7 @@ public final class Constants {
 	// Key för serverns retur av headlines i form av en array. Ingår i svar på appens begäran om 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER och 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES
-	public static final String ARRAY_HEADLINE = "32";	//TODO remove?
+	public static final String ARRAY_HEADLINE = "32";
 	public static final String NBR_OF_SIGNEDUP = "33";
 	public static final String MY_ACTIVITIES = "34";
 	public static final String ARRAY_LANDSCAPE = "35";
@@ -172,6 +174,15 @@ public final class Constants {
 	// Används tillsammans med commando/TYPE PUBLISH_ACTIVITY_TO_SPECIFIC_USERS. Innehåller en array med 
 	// de användare som aktiviteten ska publiseras till.
 	public static final String ARRAY_USERNAME = "63";
+	
+	// Används av servern som nyckel för om en användare är signed up för en aktivitet eller inte.
+	public static final String SIGNED_UP = "64";
+	
+	// Används som value till SIGNED_UP om användaren är signed up för aktiviteten.
+	public static final String YES = "65";
+	
+	// Används som value till SIGNED_UP om användaren inte är signed up för aktiviteten.
+	public static final String NO = "66";
 
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
