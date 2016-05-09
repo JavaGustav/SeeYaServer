@@ -297,7 +297,7 @@ public class Controller {
 			if(maxNbr == signedUp) { // Aktiviteten är fulltecknad.
 				String message = "Activity is full";
 				errorMessage(clientHandler, Constants.SIGNUP_ERROR, message);
-			} else if(databaseManager.signUpForActivity(Constants.USERNAME, Long.parseLong(Constants.ID))){
+			} else if(databaseManager.signUpForActivity((String)jsonObject.get(Constants.USERNAME), (long)jsonObject.get(Constants.ID))){
 				String message = "User: " + jsonObject.get(Constants.USERNAME) + " is signed up";
 				confirmMessage(clientHandler, Constants.SIGNUP_CONFIRMATION, message);
 			} else {
