@@ -27,9 +27,9 @@ public class DatabaseManager {
 			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
 			+ "owner, headline, datePublished, location FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
-			+ "activities WHERE subCategory = ";
+			+ "activities WHERE subCategory = "; //TODO
 	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
-			+ ", date FROM activities WHERE owner = ";
+			+ ", date FROM activities WHERE owner = "; //TODO
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -579,6 +579,6 @@ public class DatabaseManager {
 		//db.getMainCategoriesWithOwnActivities("Gustav");
 		//db.getSubCategoriesWithOwnActivities("Gustav", 2);
 		//db.getActivityHeadLines(201, "Gustav");
-		//db.getOwnActivitiesHeadlines(201, "Gustav");
+		//db.getOwnActivityHeadlines(201, "Gustav");
 	}
 }
