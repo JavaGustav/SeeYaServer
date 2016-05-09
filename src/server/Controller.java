@@ -87,7 +87,7 @@ public class Controller {
 			} else if(type.equals(Constants.LOCATIONS)) {
 				sendLocations(clientHandler);
 			} else if(type.equals(Constants.ACTIVITIY)) {
-				sendActivity(clientHandler, (long)jsonObject.get(Constants.ID));
+				sendActivity(clientHandler, (long)jsonObject.get(Constants.ID), (String)jsonObject.get(Constants.USERNAME));
 			} else if(type.equals(Constants.LOCATIONS_VERSION_NBR)) {
 				String version = (String)jsonObject.get(Constants.ID);
 				checkLocationsVersion(clientHandler, version);
@@ -137,10 +137,14 @@ public class Controller {
 		}
 	}
 	
-	private void sendActivity(ClientHandler clientHandler, long id) {
-		String activity;
-		activity = databaseManager.getActivitiy(id);
-		clientHandler.send(activity);
+	private void sendActivity(ClientHandler clientHandler, long id, String userName) {
+		JSONObject activity = databaseManager.getActivitiy(id);
+		if(databaseManager.isUserSignedup(id, userName)){
+			activity.put(Constants.SIGNED_UP, Constants.YES);
+		} else {
+			activity.put(Constants.SIGNED_UP, Constants.NO);
+		}
+		clientHandler.send(activity.toString());
 	}
 	
 //	private void sendOwnedActivities(ClientHandler clientHandler, JSONObject json) {

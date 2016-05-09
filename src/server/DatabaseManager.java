@@ -68,7 +68,7 @@ public class DatabaseManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject getActivitiy(long id, String userName) {
+	public JSONObject getActivitiy(long id) {
 		JSONObject mainObject = startJson(Constants.ACTIVITIY);
 		Statement select;
 		try {
