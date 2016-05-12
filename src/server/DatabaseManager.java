@@ -32,7 +32,7 @@ public class DatabaseManager {
 			+ ", date FROM activities WHERE owner = "; //TODO
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
-			+ "time, message, owner, headLine, location) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "time, message, owner, headLine, location, address) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
 			+ "VALUES(?, ?)";
 	private final String GET_VERSION_QUERY = "SELECT version FROM versions"
@@ -40,9 +40,9 @@ public class DatabaseManager {
 	
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
-	private static final String URL = "jdbc:mysql://195.178.232.7:4040/ad4063";
+	private static final String URL = "jdbc:mysql://213.65.110.13:7503/SYDatabase";
 
-	private final String USERNAME = "AD4063";
+	private final String USERNAME = "root";
 	private final String PASSWORD = "sys100";
 	
 	private Controller controller;
@@ -251,7 +251,7 @@ public class DatabaseManager {
 
 	public boolean addNewActivity(String owner, long location, long subCategory,
 			long maxNbr, long minNbr, String date,
-			String time, String message, String headLine) {
+			String time, String message, String headLine, String address) {
 
 		if(connection == null) {
 			openConnection();
@@ -268,6 +268,7 @@ public class DatabaseManager {
 			statement.setString(7, owner);
 			statement.setString(8, headLine);
 			statement.setLong(9, location);
+			statement.setString(10, address);
 			statement.executeUpdate();
 			controller.log(Constants.LOG_INFO, "New activity created");
 			return true;
