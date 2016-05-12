@@ -246,8 +246,9 @@ public class Controller {
 		String time = (String) jsonObject.get(Constants.TIME); 	
 		String message = (String) jsonObject.get(Constants.MESSAGE);
 		String headline = (String) jsonObject.get(Constants.HEADLINE); 
+		String address = (String) jsonObject.get(Constants.ADDRESS);
 		
-		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minNbrOfParticipants, date, time, message, headline)){
+		if(databaseManager.addNewActivity(owner, location, subcategory, maxnbr, minNbrOfParticipants, date, time, message, headline, address)){
 			//Det gick att skapa den nya aktiviteten
 			String sendMessage = "Activity: " + "created succesfully";
 			
@@ -281,7 +282,7 @@ public class Controller {
 			
 			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, message);
 			
-		} else { //Dï¿½ har det inte gï¿½tt att lagra anvï¿½ndaren
+		} else { //Då har det inte gått att publicera aktiviteten
 			
 			String errorType = Constants.PUBLISH_ACTIVITY_ERROR;
 			String message = "Activity Id: " + activityID + " is NOT published";
