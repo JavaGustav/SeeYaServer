@@ -25,7 +25,7 @@ public class DatabaseManager {
 			" username = ";
 	private final String GET_ACTIVITIES_QUERY = "SELECT subCategory, "
 			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
-			+ "owner, headline, datePublished, location FROM activities WHERE id = ";
+			+ "owner, headline, datePublished, location, address FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
 			+ "activities WHERE subCategory = "; //TODO
 	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
@@ -88,6 +88,7 @@ public class DatabaseManager {
 			mainObject.put(Constants.DATE_PUBLISHED, result.getString(9));
 			long location = result.getInt(10);
 			mainObject.put(Constants.PLACE, getLocationName(location));
+			mainObject.put(Constants.ADDRESS, result.getString(10));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
