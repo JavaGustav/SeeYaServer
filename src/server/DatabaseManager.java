@@ -40,9 +40,9 @@ public class DatabaseManager {
 	
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
-	private static final String URL = "jdbc:mysql://213.65.110.13:7503/SYDatabase";
+	private static final String URL = "jdbc:mysql://195.178.232.7:4040/AD4063";
 
-	private final String USERNAME = "root";
+	private final String USERNAME = "AD4063";
 	private final String PASSWORD = "sys100";
 	
 	private Controller controller;
