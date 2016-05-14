@@ -23,15 +23,15 @@ public class DatabaseManager {
 			"username = ";
 	private final String CHECK_IF_USER_EXISTS_QUERY = "SELECT * FROM users WHERE"+
 			" username = ";
-	private final String GET_ACTIVITIES_QUERY = "SELECT subCategory, "
+	private final String GET_ACTIVITIES_QUERY = "SELECT subcategory, "
 			+ "maxnbrofparticipants, minnbrofparticipants, date, time, message, "
 			+ "owner, headline, datePublished, location, address FROM activities WHERE id = ";
 	private final String GET_ACTIVITIES_HEADLINES_QUERY = "SELECT id, headLine, date FROM "
-			+ "activities WHERE subCategory = "; //TODO
+			+ "activities WHERE subcategory = "; //TODO
 	private final String GET_OWNED_ACTIVITIES_HEADLINES = "SELECT id, headLine "
 			+ ", date FROM activities WHERE owner = "; //TODO
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
-			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
+			+ "(subcategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine, location, address) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String WRITE_LOG_QUERY = "INSERT INTO serverlog(logType, message)"
 			+ "VALUES(?, ?)";
@@ -40,7 +40,7 @@ public class DatabaseManager {
 
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
-	// ******************* on MAH **********************************************
+	// ******************** on MAH **********************************************
 	private static final String URL = "jdbc:mysql://195.178.227.53:4040/AD4063";
 	private final String USERNAME = "AD4063";
 	// **************************************************************************
@@ -50,8 +50,8 @@ public class DatabaseManager {
 	//private static final String URL = "jdbc:mysql://localhost/SYDatabase";
 	//private final String USERNAME = "root";
 	// ********************************************************************
-	
-	
+
+
 	private final String PASSWORD = "sys100";
 
 	private Controller controller;
@@ -382,7 +382,7 @@ public class DatabaseManager {
 		int index = 0;
 		try {
 			select = connection.createStatement();
-			resultOuter = select.executeQuery("SELECT id, title FROM mainCategories");
+			resultOuter = select.executeQuery("SELECT id, title FROM maincategories");
 			while(resultOuter.next()) {
 				index++;
 				temp = new JSONObject();
@@ -446,7 +446,7 @@ public class DatabaseManager {
 	public JSONArray getMainCategoriesWithActivities(String userName) {
 		String query = "SELECT id, title FROM maincategories WHERE id = "
 				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
-				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT subcategory FROM activities WHERE id = "
 				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
 				+ "userName = '"+userName+"')AS t UNION (SELECT id FROM activities "
 				+ "WHERE public = 1 AND datePublished IS NOT NULL))))";
@@ -456,7 +456,7 @@ public class DatabaseManager {
 	public JSONArray getMainCategoriesWithOwnActivities(String userName) {
 		String query = "SELECT id, title FROM maincategories WHERE id = "
 				+ "ANY (SELECT parentId FROM subcategories WHERE id = "
-				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT subcategory FROM activities WHERE id = "
 				+ "ANY (SELECT id FROM activities "
 				+ "WHERE owner = '"+userName+"')))";
 		return getCategories(query);
@@ -464,7 +464,7 @@ public class DatabaseManager {
 
 	public JSONArray getSubCategoriesWithActivities(String userName, long mainCatId) {
 		String query = "SELECT id, title FROM subcategories WHERE id = "
-				+ "ANY (SELECT subCategory FROM activities WHERE id = "
+				+ "ANY (SELECT subcategory FROM activities WHERE id = "
 				+ "ANY (SELECT * FROM (SELECT activityId FROM visibility WHERE "
 				+ "userName = '"+userName+"')AS t "
 				+ "UNION (SELECT id FROM activities WHERE public = 1 "
@@ -474,7 +474,7 @@ public class DatabaseManager {
 	
 	public JSONArray getSubCategoriesWithOwnActivities(String userName, long mainCatId) {
 		String query = "SELECT id, title FROM subcategories WHERE id = "
-				+ "ANY (SELECT subCategory FROM activities WHERE owner = '"+userName+"') "
+				+ "ANY (SELECT subcategory FROM activities WHERE owner = '"+userName+"') "
 				+ "AND parentId = " + mainCatId;
 		return getCategories(query);
 	}
