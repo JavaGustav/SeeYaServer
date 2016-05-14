@@ -282,7 +282,7 @@ public class Controller {
 			
 			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, message);
 			
-		} else { //Då har det inte gått att publicera aktiviteten
+		} else { //Dï¿½ har det inte gï¿½tt att publicera aktiviteten
 			
 			String errorType = Constants.PUBLISH_ACTIVITY_ERROR;
 			String message = "Activity Id: " + activityID + " is NOT published";
@@ -292,14 +292,14 @@ public class Controller {
 	}
 	
 	/**
-	 * Låter användare anmäla sig till en aktivitet förutsatt att max antal deltagare inte överskrids.
-	 * @param clientHandler. Klienthanteraren varifrån anropet kom och dit svaret ska skickas.
-	 * @param jsonObject. JSON-objektet med begäran om att anmäla till aktivitet.
+	 * Lï¿½ter anvï¿½ndare anmï¿½la sig till en aktivitet fï¿½rutsatt att max antal deltagare inte ï¿½verskrids.
+	 * @param clientHandler. Klienthanteraren varifrï¿½n anropet kom och dit svaret ska skickas.
+	 * @param jsonObject. JSON-objektet med begï¿½ran om att anmï¿½la till aktivitet.
 	 */
 	private void signUpForActivity(ClientHandler clientHandler, JSONObject jsonObject){
 			long maxNbr = databaseManager.getMaxNbrOfParticipants((long) jsonObject.get(Constants.ID));
 			long signedUp = databaseManager.getNumberOfSignedUp((long) jsonObject.get(Constants.ID));
-			if(maxNbr == signedUp) { // Aktiviteten är fulltecknad.
+			if(maxNbr == signedUp) { // Aktiviteten ï¿½r fulltecknad.
 				String message = "Activity is full";
 				errorMessage(clientHandler, Constants.SIGNUP_ERROR, message);
 			} else if(databaseManager.signUpForActivity((String)jsonObject.get(Constants.USERNAME), (long)jsonObject.get(Constants.ID))){
@@ -366,11 +366,11 @@ public class Controller {
 		
 		mainObject.put(Constants.TYPE, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER);
 		mainObject.put(Constants.USERNAME, userName);
-		// Hämtar en JSONArray med huvudkategorierna i
+		// Hï¿½mtar en JSONArray med huvudkategorierna i
 		mainCategoriesArray = databaseManager.getMainCategoriesWithActivities(userName);
 		if(mainCategoriesArray != null){
 			mainObject.put(Constants.ARRAY_MAINCATEGORY, mainCategoriesArray);
-			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
+			// Loopar igenom samtliga huvudkategorier och hï¿½mtar dess ID
 			for(int i=0; i<mainCategoriesArray.size(); i++){
 				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
 				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
@@ -378,7 +378,7 @@ public class Controller {
 				subCategoriesArray = databaseManager.getSubCategoriesWithActivities(userName, (long)mainCategoryID);
 				if(subCategoriesArray != null){
 					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
-					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
+					// Loopar igenom samtliga subkategorier tillhï¿½rande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
 						subCategoryID = (int) subCategoryObject.get(Constants.ID);
@@ -414,11 +414,11 @@ public class Controller {
 		
 		mainObject.put(Constants.TYPE, Constants.MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES);
 		mainObject.put(Constants.USERNAME, userName);
-		// Hämtar en JSONArray med huvudkategorierna i
+		// Hï¿½mtar en JSONArray med huvudkategorierna i
 		mainCategoriesArray = databaseManager.getMainCategoriesWithOwnActivities(userName);
 		if(mainCategoriesArray != null){
 			mainObject.put(Constants.ARRAY_MAINCATEGORY, mainCategoriesArray);
-			// Loopar igenom samtliga huvudkategorier och hämtar dess ID
+			// Loopar igenom samtliga huvudkategorier och hï¿½mtar dess ID
 			for(int i=0; i<mainCategoriesArray.size(); i++){
 				mainCategoryObject = (JSONObject) mainCategoriesArray.get(i);
 				mainCategoryID = (int) mainCategoryObject.get(Constants.ID);
@@ -426,7 +426,7 @@ public class Controller {
 				subCategoriesArray = databaseManager.getSubCategoriesWithOwnActivities(userName, (long) mainCategoryID);
 				if(subCategoriesArray != null){
 					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
-					// Loopar igenom samtliga subkategorier tillhörande aktuell huvudkategori.
+					// Loopar igenom samtliga subkategorier tillhï¿½rande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
 						subCategoryID = (int) subCategoryObject.get(Constants.ID);
@@ -472,7 +472,7 @@ public class Controller {
 			errorMessage(clientHandler, Constants.PUBLISH_ACTIVITY_ERROR, notPublished.toString());
 		}
 	}
-	
+
 	/**
 	 * Send a confirmation message back to client.
 	 * @param clientHandler. The client handler servicing the requesting client.
@@ -496,13 +496,13 @@ public class Controller {
 	 */
 	private void errorMessage(ClientHandler clientHandler, String errorType, String message){
 		JSONObject jsonSendObject = new JSONObject();
-		
+
 		jsonSendObject.put(Constants.TYPE, errorType);
 		jsonSendObject.put(Constants.MESSAGE, message);
 
 		clientHandler.send(jsonSendObject.toString());
 	}
-	
+
 	private void dataMessage(ClientHandler clientHandler, JSONObject data){
 		clientHandler.send(data.toString());
 	}

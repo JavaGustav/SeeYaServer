@@ -33,18 +33,23 @@ public class DatabaseManager {
 	private final String ADD_NEW_ACTIVITY_QUERY = "INSERT INTO activities"
 			+ "(subCategory, maxnbrofparticipants, minnbrofparticipants, date, "
 			+ "time, message, owner, headLine, location, address) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String WRITE_LOG_QUERY = "INSERT INTO serverLog(logType, message)"
+	private final String WRITE_LOG_QUERY = "INSERT INTO serverlog(logType, message)"
 			+ "VALUES(?, ?)";
 	private final String GET_VERSION_QUERY = "SELECT version FROM versions"
 			+ " WHERE title = ";
-	
+
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
-	private static final String URL = "jdbc:mysql://195.178.232.7:4040/AD4063";
-
+	private static final String URL = "jdbc:mysql://195.178.227.53:4040/AD4063";
 	private final String USERNAME = "AD4063";
-	private final String PASSWORD = "sys100";
 	
+	// ****************** on our server ***********************************
+	//private static final String URL = "jdbc:mysql://localhost/SYDatabase";
+	//private final String USERNAME = "root";
+	// ********************************************************************
+	
+	private final String PASSWORD = "sys100";
+
 	private Controller controller;
 
 	Connection connection = null;
@@ -142,7 +147,7 @@ public class DatabaseManager {
 		}
 		return nbr;
 	}
-	
+
 	public long getMaxNbrOfParticipants(long activityId) {
 		long maxNbr = -1;
 		Statement select;
@@ -611,6 +616,6 @@ public class DatabaseManager {
 		//db.getSubCategoriesWithOwnActivities("Gustav", 2);
 		//db.getActivityHeadLines(201, "Gustav");
 		//db.getOwnActivityHeadlines(201, "Gustav");
-		db.isUserSignedup(23, "test6");
+		//db.isUserSignedup(23, "test6");
 	}
 }
