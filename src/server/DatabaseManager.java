@@ -40,13 +40,17 @@ public class DatabaseManager {
 
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
+	// ******************* on MAH **********************************************
 	private static final String URL = "jdbc:mysql://195.178.227.53:4040/AD4063";
 	private final String USERNAME = "AD4063";
+	// **************************************************************************
+	
 	
 	// ****************** on our server ***********************************
 	//private static final String URL = "jdbc:mysql://localhost/SYDatabase";
 	//private final String USERNAME = "root";
 	// ********************************************************************
+	
 	
 	private final String PASSWORD = "sys100";
 
