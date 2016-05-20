@@ -208,13 +208,6 @@ public class DatabaseManager {
 	}
 
 	public String getPassWord(String userName) {
-		try {
-			if(connection.isClosed() || connection == null) {
-				openConnection();
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 		Statement select;
 		String passWord = null;
 		try {
@@ -230,13 +223,6 @@ public class DatabaseManager {
 	}
 
 	public boolean checkIfUserExists(String userName) throws SQLException {
-		try {
-			if(connection.isClosed() || connection == null) {
-				openConnection();
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 		Statement select;
 		ResultSet result = null;
 		try {

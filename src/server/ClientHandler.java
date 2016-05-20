@@ -38,8 +38,7 @@ public class ClientHandler implements Runnable {
 			dos = new DataOutputStream(socket.getOutputStream());
 			while(true){
 				jsonString = dis.readUTF();
-				System.out.println("ClientHandler, run, recieved new message from client");
-				
+			
 				controller.processCommand(this,jsonString);
 			}
 			

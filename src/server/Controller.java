@@ -72,7 +72,6 @@ public class Controller {
 			type = (String) jsonObject.get(Constants.TYPE);
 			System.out.println("TYPE: " + type);
 			if(type.equals(Constants.NEWUSER)){
-				System.out.println("NEWUSER......................");
 				createNewUser(clientHandler, jsonObject);
 			} else if(type.equals(Constants.LOGIN)){
 				logIn(clientHandler, jsonObject);
@@ -238,7 +237,7 @@ public class Controller {
 	 */
 	private void newActivity(ClientHandler clientHandler, JSONObject jsonObject){
 		String owner = (String) jsonObject.get(Constants.NAME);
-		long location = (long) jsonObject.get(Constants.PLACE);
+		long location = (long)jsonObject.get(Constants.PLACE);
 		long subcategory = (long) jsonObject.get(Constants.SUBCATEGORY); 
 		long maxnbr = (long) jsonObject.get(Constants.MAX_NBROF_PARTICIPANTS);
 		long minNbrOfParticipants = (long) jsonObject.get(Constants.MIN_NBR_OF_PARTICIPANTS);
@@ -271,10 +270,7 @@ public class Controller {
 	 * @param jsonObject
 	 */
 	private void publishActivity(ClientHandler clientHandler, JSONObject jsonObject ){
-		System.out.println("publishActivity, 1");
 		long activityID = (long) jsonObject.get(Constants.ID);
-		System.out.println("publishActivity 1");
-		System.out.println("activityID: " + activityID);
 		
 		if(databaseManager.publishActivity(activityID)){
 			
@@ -377,7 +373,6 @@ public class Controller {
 
 				subCategoriesArray = databaseManager.getSubCategoriesWithActivities(userName, (long)mainCategoryID);
 				if(subCategoriesArray != null){
-					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
 					// Loopar igenom samtliga subkategorier tillh�rande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
@@ -425,7 +420,6 @@ public class Controller {
 
 				subCategoriesArray = databaseManager.getSubCategoriesWithOwnActivities(userName, (long) mainCategoryID);
 				if(subCategoriesArray != null){
-					System.out.println("getMaincategorySubcategoryHeadlinesForUser" + subCategoriesArray.toString());
 					// Loopar igenom samtliga subkategorier tillh�rande aktuell huvudkategori.
 					for(int j=0; j<subCategoriesArray.size(); j++){
 						subCategoryObject = (JSONObject) subCategoriesArray.get(j);
@@ -451,6 +445,7 @@ public class Controller {
 	 */
 	private void publishActivityToSpecificUsers(ClientHandler clientHandler, JSONObject jsonObject){
 		JSONArray users = (JSONArray) jsonObject.get(Constants.ARRAY_USERNAME);
+		System.out.println("Controller publishActivityToSpecificUsers, jsonObject: " + jsonObject.toString());
 		long activityID = (long) jsonObject.get(Constants.ID);
 		JSONArray published = new JSONArray();
 		JSONArray notPublished = new JSONArray();
@@ -467,12 +462,28 @@ public class Controller {
 		}
 		
 		if(users.size() == published.size()){
-			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, published.toString());
+			confirmMessage(clientHandler, Constants.PUBLISH_ACTIVITY_CONFIRMATION, published);
 		} else {
-			errorMessage(clientHandler, Constants.PUBLISH_ACTIVITY_ERROR, notPublished.toString());
+			errorMessage(clientHandler, Constants.PUBLISH_ACTIVITY_ERROR, notPublished);
 		}
 	}
 
+	/**
+	 * Send a confirmation message back to client.
+	 * @param clientHandler. The client handler servicing the requesting client.
+	 * @param confirmType. The type of confirm message.
+	 * @param message. A complementary message of type JSONArray.
+	 * The method is similar to the one below but has a JSONArray as message type instead of a String.
+	 */
+	private void confirmMessage(ClientHandler clientHandler, String confirmType, JSONArray message){
+		JSONObject jsonSendObject = new JSONObject();
+		System.out.println("Controller, confirmMessage, message :" + message);
+		jsonSendObject.put(Constants.TYPE, confirmType);
+		jsonSendObject.put(Constants.MESSAGE, message);
+		clientHandler.send(jsonSendObject.toString());
+	}
+
+	
 	/**
 	 * Send a confirmation message back to client.
 	 * @param clientHandler. The client handler servicing the requesting client.
@@ -481,13 +492,29 @@ public class Controller {
 	 */
 	private void confirmMessage(ClientHandler clientHandler, String confirmType, String message){
 		JSONObject jsonSendObject = new JSONObject();
-
+		System.out.println("Controller, confirmMessage, message :" + message);
 		jsonSendObject.put(Constants.TYPE, confirmType);
+		jsonSendObject.put(Constants.MESSAGE, message);
+		clientHandler.send(jsonSendObject.toString());
+	}
+
+	/**
+	 * Send an error message back to client.
+	 * @param clientHandler. The client handler servicing the requesting client.
+	 * @param errorType. The type of error.
+	 * @param message. A complementary message of type JSONArray.
+	 * The method is similar to the one below but has a JSONArray as message type instead of a String.
+	 */
+	private void errorMessage(ClientHandler clientHandler, String errorType, JSONArray message){
+		JSONObject jsonSendObject = new JSONObject();
+
+		jsonSendObject.put(Constants.TYPE, errorType);
 		jsonSendObject.put(Constants.MESSAGE, message);
 
 		clientHandler.send(jsonSendObject.toString());
 	}
 
+	
 	/**
 	 * Send an error message back to client.
 	 * @param clientHandler. The client handler servicing the requesting client.
