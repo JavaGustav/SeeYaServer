@@ -41,19 +41,18 @@ public class DatabaseManager {
 	private final String DRIVER = "com.mysql.jdbc.Driver";
 
 	// ******************** on MAH **********************************************
-	private static final String URL = "jdbc:mysql://195.178.227.53:4040/AD4063";
-	private final String USERNAME = "AD4063";
+//	private static final String URL = "jdbc:mysql://195.178.227.53:4040/AD4063";
+//	private final String USERNAME = "AD4063";
 	// **************************************************************************
 	
 	
 	// ****************** on our server ***********************************
-	//private static final String URL = "jdbc:mysql://localhost/SYDatabase";
-	//private final String USERNAME = "root";
+	private static final String URL = "jdbc:mysql://localhost/SYDatabase";
+	private final String USERNAME = "root";
 	// ********************************************************************
 
 
 	private final String PASSWORD = "sys100";
-
 	private Controller controller;
 
 	Connection connection = null;
@@ -97,11 +96,10 @@ public class DatabaseManager {
 			mainObject.put(Constants.DATE_PUBLISHED, result.getString(9));
 			long location = result.getInt(10);
 			mainObject.put(Constants.PLACE, getLocationName(location));
-			mainObject.put(Constants.ADDRESS, result.getString(10));
+			mainObject.put(Constants.ADDRESS, result.getString(11));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(mainObject.toString());
 		return mainObject;
 	}
 	
@@ -186,7 +184,6 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("FROM GETHEADLINES: " + array.toString());
 		return array;
 	}
 
@@ -244,7 +241,7 @@ public class DatabaseManager {
 		}
 		try {
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO"+
-					" users (username, password, email) VALUES (?, ?, ?)");
+					" users (username, password, email, timecreated) VALUES (?, ?, ?, NOW())");
 			statement.setString(1, userName);
 			statement.setString(2, passWord);
 			statement.setString(3, email);
@@ -407,7 +404,6 @@ public class DatabaseManager {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println(mainObj.toString());
 		return mainObj.toString();
 	}
 	
@@ -439,7 +435,6 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("FROM GETCATEGORIES: " + array.toString());
 		return array;
 	}
 
@@ -534,8 +529,8 @@ public class DatabaseManager {
 			select = connection.createStatement();
 			result = select.executeQuery(GET_VERSION_QUERY + "'"+line+"'");
 			result.first();
-			String currentVersion = result.getString(1);
-			System.out.println(currentVersion);
+			String tempCurrentVersion = result.getString(1);
+			String currentVersion = tempCurrentVersion.substring(0, (tempCurrentVersion.length()-2));
 			return currentVersion;
 		} catch (SQLException e) {
 			e.printStackTrace();
