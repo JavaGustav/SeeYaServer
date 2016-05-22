@@ -517,6 +517,9 @@ public class DatabaseManager {
 	}
 
 	public String getVersion(String version) {
+		if(connection == null) {
+			openConnection();
+		}
 		String line = null;
 		if(version.equals(Constants.LOCATIONS)) {
 			line = "locations";
