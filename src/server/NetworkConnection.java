@@ -4,16 +4,15 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.json.simple.JSONObject;
 /**
  * SeeYa
  * @author Gustav Frigren
  *
  */
 public class NetworkConnection extends Thread {
-	
+
 	private boolean running = false;
-	
+
 	//private final int PORT = 7500;
 	private int port;
 	private ServerSocket serverSocket;
