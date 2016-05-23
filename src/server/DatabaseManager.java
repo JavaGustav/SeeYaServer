@@ -220,6 +220,9 @@ public class DatabaseManager {
 	}
 
 	public boolean checkIfUserExists(String userName) throws SQLException {
+		if(connection == null) {
+			openConnection();
+		}
 		Statement select;
 		ResultSet result = null;
 		try {
