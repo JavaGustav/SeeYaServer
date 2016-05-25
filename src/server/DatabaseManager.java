@@ -219,6 +219,27 @@ public class DatabaseManager {
 		return passWord;
 	}
 
+	public String getAllUsers() {
+		Statement select;
+		JSONObject obj = startJson("1000");
+		JSONArray array = new JSONArray();
+		JSONObject temp;
+		try {
+			select = connection.createStatement();
+			ResultSet result = select.executeQuery("SELECT username FROM users;");
+			while(result.next()) {
+				temp = new JSONObject();
+				temp.put(Constants.USERNAME, 1);
+				array.add(temp);
+			}
+			obj.put(Constants.ARRAY_USERNAME, array);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(obj.toString());
+		return obj.toString();
+	}
+
 	public boolean checkIfUserExists(String userName) throws SQLException {
 		if(connection == null) {
 			openConnection();
@@ -332,11 +353,6 @@ public class DatabaseManager {
 			
 			e.printStackTrace();
 		}
-	}
-
-	//TODO ???
-	public String getUsers() {
-		return null;
 	}
 
 	public boolean signUpForActivity(String userName, long activityID) {
@@ -543,6 +559,32 @@ public class DatabaseManager {
 		}
 		return null;
 	}
+	
+	public void addNewMainCategory(String name) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("INSERT INTO maincategories "
+					+ "(title) VALUES(?);");
+			statement.setString(1,  name);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addNewSubCategory(long mainCategory, String subCategory) {
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("INSERT INTO subcategories "
+					+ "(title, parentId) VALUES(?, ?);");
+			statement.setString(1, subCategory);
+			statement.setLong(2, mainCategory);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public boolean writeLog(String logType, String message) {
 		PreparedStatement statement;
@@ -622,5 +664,6 @@ public class DatabaseManager {
 		//db.getActivityHeadLines(201, "Gustav");
 		//db.getOwnActivityHeadlines(201, "Gustav");
 		//db.isUserSignedup(23, "test6");
+		//db.getAllUsers();
 	}
 }
