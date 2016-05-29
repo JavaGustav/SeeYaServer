@@ -52,7 +52,7 @@ public class DatabaseManager {
 	// ********************************************************************
 
 
-	private final String PASSWORD = "sys100";
+	private final String PASSWORD = "141461";
 	private Controller controller;
 
 	Connection connection = null;
@@ -221,7 +221,7 @@ public class DatabaseManager {
 
 	public String getAllUsers() {
 		Statement select;
-		JSONObject obj = startJson("1000");
+		JSONObject obj = startJson(Constants.GET_ALL_USERS);
 		JSONArray array = new JSONArray();
 		JSONObject temp;
 		try {
@@ -229,14 +229,14 @@ public class DatabaseManager {
 			ResultSet result = select.executeQuery("SELECT username FROM users;");
 			while(result.next()) {
 				temp = new JSONObject();
-				temp.put(Constants.USERNAME, 1);
+				temp.put(Constants.USERNAME, result.getString(1));
 				array.add(temp);
 			}
 			obj.put(Constants.ARRAY_USERNAME, array);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(obj.toString());
+		System.out.println("DBMANAGER " + obj.toString());
 		return obj.toString();
 	}
 
@@ -283,10 +283,16 @@ public class DatabaseManager {
 	public boolean addNewActivity(String owner, long location, long subCategory,
 			long maxNbr, long minNbr, String date,
 			String time, String message, String headLine, String address) {
-
+		
+		// TODO added 26/5 2016. TEST!
+		if(maxNbr == 0) {
+			maxNbr = Long.MAX_VALUE;
+		}
+		
 		if(connection == null) {
 			openConnection();
 		}
+		
 		try {
 			PreparedStatement statement = connection.prepareStatement(
 					ADD_NEW_ACTIVITY_QUERY);
@@ -308,7 +314,7 @@ public class DatabaseManager {
 		}
 		return false;
 	}
-	
+
 	//TODO ?
 	public boolean updateActivity() {
 		return false;
@@ -407,8 +413,11 @@ public class DatabaseManager {
 				temp.put(Constants.NAME, mainTitle);
 				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
+
+				//TODO changed 26/5 2016. TEST!
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
-						+ "subcategories WHERE parentId = " + index);
+						+ "subcategories WHERE parentId = " + mainId); //TODO TEST!
+
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
@@ -516,8 +525,11 @@ public class DatabaseManager {
 				temp.put(Constants.NAME, mainTitle);
 				temp.put(Constants.ID, mainId);
 				selectInner = connection.createStatement();
+
+				//TODO changed 26/5 2016. TEST!
 				resultInner = selectInner.executeQuery("SELECT id, title FROM "
-						+ "cities WHERE parentId = " + index);
+						+ "cities WHERE parentId = " + mainId); //TODO TEST!
+
 				jArray = new JSONArray();
 				while(resultInner.next()) {
 					JSONObject inner = new JSONObject();
@@ -559,7 +571,7 @@ public class DatabaseManager {
 		}
 		return null;
 	}
-	
+
 	public void addNewMainCategory(String name) {
 		PreparedStatement statement;
 		try {
@@ -570,9 +582,8 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
-	
+
 	public void addNewSubCategory(long mainCategory, String subCategory) {
 		PreparedStatement statement;
 		try {
@@ -584,6 +595,22 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getUserEmail(String userName) {
+		JSONObject obj = startJson(Constants.GET_USER_EMAIL);
+		Statement select;
+		ResultSet result;
+		try {
+			select = connection.createStatement();
+			result = select.executeQuery("SELECT email FROM users WHERE username = '"+userName+"'");
+			result.first();
+			obj.put(Constants.USERNAME, userName);
+			obj.put(Constants.EMAIL, result.getString(1));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return obj.toString();
 	}
 
 	public boolean writeLog(String logType, String message) {

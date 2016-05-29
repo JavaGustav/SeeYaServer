@@ -7,75 +7,75 @@ package server;
  */
 public final class Constants {
 	//examples
-	// TYPE, nyckel som ska finnas med i varje JSON-objekt/sträng för identifiering av vilken slags meddelande
-	// eller kommando objektet/filen innehåller.
+	// TYPE, nyckel som ska finnas med i varje JSON-objekt/strï¿½ng fï¿½r identifiering av vilken slags meddelande
+	// eller kommando objektet/filen innehï¿½ller.
 	public static final String TYPE = "1";
 	
-	// TYPE för appens begäran om att registrera en ny användare.
+	// TYPE fï¿½r appens begï¿½ran om att registrera en ny anvï¿½ndare.
 	public static final String NEWUSER = "2";
 	
-	// TYPE för appens begäran om att logga in en användare.
+	// TYPE fï¿½r appens begï¿½ran om att logga in en anvï¿½ndare.
 	public static final String LOGIN ="3";
 	
-	// TYPE för appens begäran om att få en activity. Detta sker när användaren trycker på en headline i appen
-	// för att se själva aktiviteten.
+	// TYPE fï¿½r appens begï¿½ran om att fï¿½ en activity. Detta sker nï¿½r anvï¿½ndaren trycker pï¿½ en headline i appen
+	// fï¿½r att se sjï¿½lva aktiviteten.
 	public static final String ACTIVITIY = "4";
 	
 	public static final String ACTIVITY_HEADLINES = "5"; // TODO remove?
 	
-	// Key vid appens begäran om att logga in eller skapa ny användare.
+	// Key vid appens begï¿½ran om att logga in eller skapa ny anvï¿½ndare.
 	public static final String USERNAME = "6";
 	
-	// Key vid appens begäran om att logga in eller skapa ny användare.
+	// Key vid appens begï¿½ran om att logga in eller skapa ny anvï¿½ndare.
 	public static final String PASSWORD = "7";
 	
-	// Key vid appens begäran om att skapa ny användare.
+	// Key vid appens begï¿½ran om att skapa ny anvï¿½ndare.
 	public static final String EMAIL = "8";
 	
 	public static final String CONFIRMATION = "9";			//TODO remove?
 	
-	// Key vid sändande av annat än standardmeddelande.
+	// Key vid sï¿½ndande av annat ï¿½n standardmeddelande.
 	public static final String MESSAGE = "10";
 	public static final String CONFIRMATION_TYPE = "11";	//TODO remove?
 
-	// TYPE vid felmeddelande från servern. Fins flera felmeddelanden. Ska möjligen tas bort.
+	// TYPE vid felmeddelande frï¿½n servern. Fins flera felmeddelanden. Ska mï¿½jligen tas bort.
 	public static final String ERROR = "12";
 	public static final String ERROR_TYPE = "13";			//TODO remove?
 
-	// TYPE vid appens begäran om att skapa ny aktivitet.
+	// TYPE vid appens begï¿½ran om att skapa ny aktivitet.
 	public static final String NEWACTIVITY = "14";
 	
-	// Key vid tex appens begäran om att skapa ny aktivitet.
+	// Key vid tex appens begï¿½ran om att skapa ny aktivitet.
 	public static final String NAME = "15";
 	
-	// Key vid appens begäran om att skapa ny aktivitet. Används för platsen där aktiviteten ska utföras.
+	// Key vid appens begï¿½ran om att skapa ny aktivitet. Anvï¿½nds fï¿½r platsen dï¿½r aktiviteten ska utfï¿½ras.
 	public static final String PLACE = "16";
 	
-	// Key vid appens begäran om att skapa ny aktivitet. Används för starttiden för aktiviteten.
+	// Key vid appens begï¿½ran om att skapa ny aktivitet. Anvï¿½nds fï¿½r starttiden fï¿½r aktiviteten.
 	public static final String TIME = "17";
 	
-	// Key vid appens begäran om att skapa ny aktivitet. Används för att ange max antal deltagare i aktiviteten.
+	// Key vid appens begï¿½ran om att skapa ny aktivitet. Anvï¿½nds fï¿½r att ange max antal deltagare i aktiviteten.
 	public static final String MAX_NBROF_PARTICIPANTS = "18";
 	
 	// Key vid angivandet av subkategori
 	public static final String SUBCATEGORY = "19";
 	
-	// Key vid angivandet av minsta antalet deltagare. Används av appen vid skapandet av ny aktivitet.
+	// Key vid angivandet av minsta antalet deltagare. Anvï¿½nds av appen vid skapandet av ny aktivitet.
 	public static final String MIN_NBR_OF_PARTICIPANTS = "20";
 	
-	// TYPE för appens begäran om att publisera en aktivitet till alla användare av systemet, publik
+	// TYPE fï¿½r appens begï¿½ran om att publisera en aktivitet till alla anvï¿½ndare av systemet, publik
 	public static final String PUBLISH_ACTIVITY = "21";
 	
-	// Key för angivandet av något id, tex aktivitets-id.
+	// Key fï¿½r angivandet av nï¿½got id, tex aktivitets-id.
 	public static final String ID = "22";
 	
-	// Key för angivandet av datum.
+	// Key fï¿½r angivandet av datum.
 	public static final String DATE = "23";
 	
-	// Key för angivandet av headline/rubrik på aktivitet.
+	// Key fï¿½r angivandet av headline/rubrik pï¿½ aktivitet.
 	public static final String HEADLINE = "24";
 	
-	// Key för angivandet av den användare som skapat/äger aktiviteten.
+	// Key fï¿½r angivandet av den anvï¿½ndare som skapat/ï¿½ger aktiviteten.
 	public static final String ACTIVITY_OWNER = "25";
 	
 	
@@ -87,12 +87,12 @@ public final class Constants {
 	//
 	public static final String ARRAY_SUBCATEGORY = "30";
 	
-	// Key för serverns retur av huvudkategorier i form av en array. Ingår i svar på appens begäran om 
+	// Key fï¿½r serverns retur av huvudkategorier i form av en array. Ingï¿½r i svar pï¿½ appens begï¿½ran om 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER och 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES
 	public static final String ARRAY_MAINCATEGORY = "31";
 	
-	// Key för serverns retur av headlines i form av en array. Ingår i svar på appens begäran om 
+	// Key fï¿½r serverns retur av headlines i form av en array. Ingï¿½r i svar pï¿½ appens begï¿½ran om 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER och 
 	// GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES
 	public static final String ARRAY_HEADLINE = "32";
@@ -107,86 +107,92 @@ public final class Constants {
 	public static final String CATEGORIES_CONFIRMATION = "41";
 	public static final String CATEGORIES_VERSION_NUMBER = "42";
 	
-	// TYPE för appens begäran am att en användare ska delta i en aktivitet.
+	// TYPE fï¿½r appens begï¿½ran am att en anvï¿½ndare ska delta i en aktivitet.
 	public static final String SIGNUP = "43";
 	
-	// TYPE för appens begäran om att en användare ska avregisterera sig från en aktivitet.
+	// TYPE fï¿½r appens begï¿½ran om att en anvï¿½ndare ska avregisterera sig frï¿½n en aktivitet.
 	public static final String UNREGISTER_FROM_ACTIVITY = "44";
 	
-	// TYPE för serverns svar på att en användare anmälts till en aktivitet.
+	// TYPE fï¿½r serverns svar pï¿½ att en anvï¿½ndare anmï¿½lts till en aktivitet.
 	public static final String SIGNUP_CONFIRMATION = "45";
 	
-	// TYPE för serverns svar på att en användare inte kunde anmälas till en aktivitet.
+	// TYPE fï¿½r serverns svar pï¿½ att en anvï¿½ndare inte kunde anmï¿½las till en aktivitet.
 	public static final String SIGNUP_ERROR = "46";
 	
-	// TYPE för serverns svar på att en aktivitet har publicerats. Svar på appens begäran om PUBLISH_ACTIVITY
+	// TYPE fï¿½r serverns svar pï¿½ att en aktivitet har publicerats. Svar pï¿½ appens begï¿½ran om PUBLISH_ACTIVITY
 	// eller PUBLISH_ACTIVITY_TO_SPECIFIC_USERS
 	public static final String PUBLISH_ACTIVITY_CONFIRMATION = "47";
 	
-	// TYPE för servens svar på att en aktivitet inte lyckats publiceras. Svar på appens begäran om PUBLISH_ACTIVITY
+	// TYPE fï¿½r servens svar pï¿½ att en aktivitet inte lyckats publiceras. Svar pï¿½ appens begï¿½ran om PUBLISH_ACTIVITY
 	// eller PUBLISH_ACTIVITY_TO_SPECIFIC_USERS
 	public static final String PUBLISH_ACTIVITY_ERROR = "48";
 	
-	// TYPE för servens svar på att en ny aktivitet har skapats. Svar på appens begäran om NEWACTIVITY
+	// TYPE fï¿½r servens svar pï¿½ att en ny aktivitet har skapats. Svar pï¿½ appens begï¿½ran om NEWACTIVITY
 	public static final String NEW_ACTIVTIY_CONFIRMATION = "49";
 	
-	// TYPE för serverns svar på att en ny aktivitet inte lyckats skapas. Svar på appens begäran om NEWACTIVITY
+	// TYPE fï¿½r serverns svar pï¿½ att en ny aktivitet inte lyckats skapas. Svar pï¿½ appens begï¿½ran om NEWACTIVITY
 	public static final String NEW_ACTIVITY_ERROR = "50";
 	
-	// TYPE för serverns svar på att en ny användare har skapats. Svar på appens begäran om NEWUSER
+	// TYPE fï¿½r serverns svar pï¿½ att en ny anvï¿½ndare har skapats. Svar pï¿½ appens begï¿½ran om NEWUSER
 	public static final String NEW_USER_CONFIRMATION = "51";
 	
-	// TYPE för serverns svar på att en ny användare inte lyckades skapas. Svar på appens begäran om NEWUSER
+	// TYPE fï¿½r serverns svar pï¿½ att en ny anvï¿½ndare inte lyckades skapas. Svar pï¿½ appens begï¿½ran om NEWUSER
 	public static final String NEW_USER_ERROR = "52";
 	
-	//TYPE för appens begäran om att få huvudkategori, subkategori och aktivitetsrubriker för en viss användare.
-	// där användaren är inbjuden till aktiviteter.
+	//TYPE fï¿½r appens begï¿½ran om att fï¿½ huvudkategori, subkategori och aktivitetsrubriker fï¿½r en viss anvï¿½ndare.
+	// dï¿½r anvï¿½ndaren ï¿½r inbjuden till aktiviteter.
 	public static final String GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER = "53";
 	
-	//TYPE för appens begäran om att få huvudkategori, subkategori och aktivitetsrubriker för en viss användare.
-	// där användaren har skapat/äger aktiviteterna.
+	//TYPE fï¿½r appens begï¿½ran om att fï¿½ huvudkategori, subkategori och aktivitetsrubriker fï¿½r en viss anvï¿½ndare.
+	// dï¿½r anvï¿½ndaren har skapat/ï¿½ger aktiviteterna.
 	public static final String GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES = "54";
 	
-	//TYPE för svar från servern på begäran av typ: GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER.
+	//TYPE fï¿½r svar frï¿½n servern pï¿½ begï¿½ran av typ: GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER.
 	public static final String MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER = "55";
 	
-	//TYPE för svar från servern på begäran av typ: GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES.
+	//TYPE fï¿½r svar frï¿½n servern pï¿½ begï¿½ran av typ: GET_MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES.
 	public static final String MAINCATEGORY_SUBCATEGORY_HEADLINES_FOR_USER_OWND_ACTIVITIES = "56";
 	
-	// TYPE för appens begäran om att publisera aktivitet för andra än alla användare, dvs till utpekade användare
+	// TYPE fï¿½r appens begï¿½ran om att publisera aktivitet fï¿½r andra ï¿½n alla anvï¿½ndare, dvs till utpekade anvï¿½ndare
 	public static final String PUBLISH_ACTIVITY_TO_SPECIFIC_USERS = "57";
 	
-	// TYPE för appens begäran om att kontrollera om en användare finns i databasen.
+	// TYPE fï¿½r appens begï¿½ran om att kontrollera om en anvï¿½ndare finns i databasen.
 	public static final String CHECK_IF_USER_EXISTS = "58";
 	
-	// TYPE för serverns svar på frågan CHECK_IF_USER_EXISTS, om användaren finns i databasen.
+	// TYPE fï¿½r serverns svar pï¿½ frï¿½gan CHECK_IF_USER_EXISTS, om anvï¿½ndaren finns i databasen.
 	public static final String USER_EXISTS = "59";
 	
-	// TYPE för serverns svar på frågan CHECK_IF_USER_EXISTS, om användaren inte finns i databasen.
+	// TYPE fï¿½r serverns svar pï¿½ frï¿½gan CHECK_IF_USER_EXISTS, om anvï¿½ndaren inte finns i databasen.
 	public static final String INVALID_USERNAME = "60";
 	
-	// TYPE för serverns svar på appens begäran om att avregistera en användare från en aktivitet, om detta gått bra.
+	// TYPE fï¿½r serverns svar pï¿½ appens begï¿½ran om att avregistera en anvï¿½ndare frï¿½n en aktivitet, om detta gï¿½tt bra.
 	public static final String UNREGISTER_FROM_ACTIVITY_CONFIRMATION = "61";
 	
-	// TYPE för serverns svar på appens begäran om att avregistrera en användare från en aktivite, om detta inte gått bra.
+	// TYPE fï¿½r serverns svar pï¿½ appens begï¿½ran om att avregistrera en anvï¿½ndare frï¿½n en aktivite, om detta inte gï¿½tt bra.
 	public static final String UNREGISTER_FROM_ACTIVITY_ERROR = "62";
 	
-	// Används tillsammans med commando/TYPE PUBLISH_ACTIVITY_TO_SPECIFIC_USERS. Innehåller en array med 
-	// de användare som aktiviteten ska publiseras till.
+	// Anvï¿½nds tillsammans med commando/TYPE PUBLISH_ACTIVITY_TO_SPECIFIC_USERS. Innehï¿½ller en array med 
+	// de anvï¿½ndare som aktiviteten ska publiseras till.
 	public static final String ARRAY_USERNAME = "63";
 	
-	// Används av servern som nyckel för om en användare är signed up för en aktivitet eller inte.
+	// Anvï¿½nds av servern som nyckel fï¿½r om en anvï¿½ndare ï¿½r signed up fï¿½r en aktivitet eller inte.
 	public static final String SIGNED_UP = "64";
 	
-	// Används som value till SIGNED_UP om användaren är signed up för aktiviteten.
+	// Anvï¿½nds som value till SIGNED_UP om anvï¿½ndaren ï¿½r signed up fï¿½r aktiviteten.
 	public static final String YES = "65";
 	
-	// Används som value till SIGNED_UP om användaren inte är signed up för aktiviteten.
+	// Anvï¿½nds som value till SIGNED_UP om anvï¿½ndaren inte ï¿½r signed up fï¿½r aktiviteten.
 	public static final String NO = "66";
 	
-	// Används som address vid inbjudan till aktivitet och när man hämtar en aktivitet
+	// Anvï¿½nds som address vid inbjudan till aktivitet och nï¿½r man hï¿½mtar en aktivitet
 	public static final String ADDRESS = "67";
-
+	
+	// used by SeeYa Admin
+	public static final String GET_ALL_USERS = "68";
+	public static final String NEW_MAIN_CATEGORY = "69";
+	public static final String NEW_SUB_CATEGORY = "70";
+	public static final String GET_USER_EMAIL = "71";
+	
 	public static final String LOG_INFO = "INFO";
 	public static final String LOG_ERROR = "ERROR";
 

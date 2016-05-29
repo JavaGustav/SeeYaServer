@@ -105,6 +105,11 @@ public class Controller {
 				getMaincategorySubcategoryHeadlinesForUserOwndActivities(clientHandler,jsonObject);
 			} else if(type.equals(Constants.PUBLISH_ACTIVITY_TO_SPECIFIC_USERS)){
 				publishActivityToSpecificUsers(clientHandler, jsonObject);
+			} else if(type.equals(Constants.GET_ALL_USERS)) {
+				sendAllUsers(clientHandler);
+			} else if(type.equals(Constants.GET_USER_EMAIL)) {
+				String userName = (String)jsonObject.get(Constants.USERNAME);
+				sendUserEmail(clientHandler, userName);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -539,6 +544,17 @@ public class Controller {
 		String date = time.getDateTime();
 		String txt = date + " " + logType + " " + message;
 		serverGUI.writeLogToGUI(txt);
+	}
+	
+	private void sendAllUsers(ClientHandler clientHandler) {
+		String toSend;
+		toSend = databaseManager.getAllUsers();
+		clientHandler.send(toSend);
+	}
+	
+	private void sendUserEmail(ClientHandler clientHandler, String userName) {
+		String toSend = databaseManager.getUserEmail(userName);
+		clientHandler.send(toSend);
 	}
 
 	public static void main(String[] args){
